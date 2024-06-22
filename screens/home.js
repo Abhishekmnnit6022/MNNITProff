@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, FlatList, Pressable, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, FlatList, Pressable, Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
@@ -26,7 +26,7 @@ export default function HomeScreen() {
       <ScrollView>
         <View style={styles.header}>
           <Text style={styles.headerText}>Today's Classes</Text>
-          <Pressable onPress={() => navigation.navigate('NotificationScreen')}>
+          <Pressable onPress={() =>Alert.alert("Working on this")}>
             <Icon name="bell" size={24} color="grey" />
           </Pressable>
         </View>
@@ -56,8 +56,8 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.box}>
             <Text style={styles.title}>My Schedule</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.box}>
-            <Text style={styles.title}>Students</Text>
+          <TouchableOpacity style={styles.box} onPress={() => navigation.navigate("NotificationPage")}>
+            <Text style={styles.title}>Make Announcement</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

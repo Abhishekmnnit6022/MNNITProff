@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/studentList").then(
+mongoose.connect("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net").then(
     () => {
         console.log("Database connected");
     }
@@ -31,6 +31,7 @@ app.listen(port, () => {
 const Attendance = require('./models/attendance'); // Import the Attendance model
 
 const classSchedule = require('./models/classSchedule');
+const Notification = require('./models/notification');
 
 
 app.get('/classSchedule', async (req, res) => {
@@ -55,4 +56,19 @@ app.post('/submitAttendance', async (req, res) => {
       res.status(500).json({ message: "Failed to submit attendance", error: err.message });
     }
   });
+
+
+//end point for pushing notification
+app.post('/pushNotification', async (req, res) => {
+    try {
+      const notificationData = req.body;
+      const result = await Notification.insertMany(notificationData);
+      res.status(200).json({ message: "Notification pushed successfully", data: result });
+    } catch (err) {
+      res.status(500).json({ message: "Failed to push notification", error: err.message });
+    }
+
+
+});
+
   
