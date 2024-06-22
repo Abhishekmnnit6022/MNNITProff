@@ -68,7 +68,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? 25 : 0, // Adjust for Android
+    paddingTop: Platform.OS === 'android' ? 50 : 0, // Adjust for Android
   },
   header: {
     flexDirection: 'row',
