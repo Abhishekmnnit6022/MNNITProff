@@ -1,0 +1,12 @@
+[
+    { "subject": "Mathematics", "venue": "LHC-2", "time": "1-2PM" },
+    { "subject": "Chemistry", "venue": "Lab", "time": "2-3PM" },
+    { "subject": "Physics", "venue": "LHC-1", "time": "9-10AM" },
+    { "subject": "Biology", "venue": "Lab", "time": "10-11AM" },
+    { "subject": "English", "venue": "Room 101", "time": "11AM-12PM" },
+    { "subject": "History", "venue": "Room 202", "time": "12-1PM" },
+    { "subject": "Computer Science", "venue": "Lab", "time": "3-4PM" },
+    { "subject": "Economics", "venue": "LHC-3", "time": "4-5PM" },
+    { "subject": "Geography", "venue": "Room 303", "time": "5-6PM" },
+    { "subject": "Art", "venue": "Art Room", "time": "6-7PM" }
+]
