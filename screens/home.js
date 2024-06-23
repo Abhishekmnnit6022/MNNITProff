@@ -104,8 +104,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 19,
     color: '#3308f3',
     textAlign: 'center',
+    fontWeight:"bold"
   },
 });
