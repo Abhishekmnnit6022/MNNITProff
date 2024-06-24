@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, FlatList, Pressable, Platform, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, DrawerActions } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import ClassCard from '../components/ClassCard';
@@ -21,12 +21,19 @@ export default function HomeScreen() {
     fetchClassSchedule();
   }, []);
 
+  const openDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView>
         <View style={styles.header}>
+          <TouchableOpacity onPress={openDrawer}>
+            <Icon name="bars" size={24} color="black" />
+          </TouchableOpacity>
           <Text style={styles.headerText}>Today's Classes</Text>
-          <Pressable onPress={() =>Alert.alert("Working on this")}>
+          <Pressable onPress={() => Alert.alert("Working on this")}>
             <Icon name="bell" size={24} color="grey" />
           </Pressable>
         </View>
@@ -68,13 +75,14 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? 50 : 0, // Adjust for Android
+    paddingTop: Platform.OS === 'android' ? 50 : 0, 
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 12,
     paddingVertical: 8,
+    alignItems: 'center',
   },
   headerText: {
     fontSize: 24,
@@ -94,7 +102,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   box: {
-    marginVertical:20,
+    marginVertical: 20,
     height: 150,
     width: 150,
     backgroundColor: '#f4779f',
@@ -107,6 +115,6 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: '#3308f3',
     textAlign: 'center',
-    fontWeight:"bold"
+    fontWeight: "bold"
   },
 });
