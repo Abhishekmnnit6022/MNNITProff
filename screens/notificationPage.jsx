@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 
 const NotificationPage = () => {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
-  const [selectedClass, setSelectedClass] = useState('');
-  const [classes] = useState(['ECMS1', 'ECMS2', 'ECMS3', 'ECMS4']); 
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedSemester, setSelectedSemester] = useState('');
+  
+  const departments = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2","E1", "E2", "F1", "F2", "G1", "G2", "H1", "H2", "I1", "J1", "K1", "L1", "M1", "N1", "N2", "O1"];
+  const semesters = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'];
 
   const sendNotification = async () => {
-    if (!title || !message || !selectedClass) {
-      alert('Please enter a title, message, and select a class');
+    if (!title || !message || !selectedDepartment || !selectedSemester) {
+      alert('Please fill all fields');
       return;
     }
 
@@ -19,9 +22,10 @@ const NotificationPage = () => {
     const notificationData = {
       title,
       message,
-      date: currentDate,
-      time: currentDate.toLocaleTimeString(),
-      class: selectedClass 
+      date: currentDate.toLocaleDateString(),
+      time: currentDate.toLocaleTimeString([], { hour: 'numeric', minute: 'numeric', hour12: true }),
+      department: selectedDepartment,
+      semester: selectedSemester
     };
 
     try {
@@ -29,7 +33,9 @@ const NotificationPage = () => {
       alert('Notification sent successfully');
       setTitle('');
       setMessage('');
-      setSelectedClass('');
+      setSelectedDepartment('');
+      setSelectedSemester('');
+      console.log('Notification sent:', response.data);
     } catch (error) {
       console.error('Error sending notification:', error);
       alert('Failed to send notification');
@@ -38,6 +44,7 @@ const NotificationPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <View style={styles.content}>
         <Text style={styles.title}>Send Notification</Text>
         
@@ -60,13 +67,26 @@ const NotificationPage = () => {
 
         <View style={styles.pickerContainer}>
           <Picker
-            selectedValue={selectedClass}
-            onValueChange={(itemValue) => setSelectedClass(itemValue)}
+            selectedValue={selectedDepartment}
+            onValueChange={(itemValue) => setSelectedDepartment(itemValue)}
             style={styles.picker}
           >
-            <Picker.Item label="Select a class" value="" />
-            {classes.map((className) => (
-              <Picker.Item key={className} label={className} value={className} />
+            <Picker.Item label="Select a department" value="" />
+            {departments.map((dept) => (
+              <Picker.Item key={dept} label={dept} value={dept} />
+            ))}
+          </Picker>
+        </View>
+
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedSemester}
+            onValueChange={(itemValue) => setSelectedSemester(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a semester" value="" />
+            {semesters.map((sem) => (
+              <Picker.Item key={sem} label={sem} value={sem} />
             ))}
           </Picker>
         </View>
@@ -75,9 +95,11 @@ const NotificationPage = () => {
           <Text style={styles.buttonText}>Send Notification</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -112,7 +134,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#4643cd',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',

@@ -53,23 +53,77 @@ export default function HomeScreen() {
           />
         </View>
 
-        <View style={styles.menuContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('AttendancePage')} style={styles.box}>
-            <Text style={styles.title}>Attendance</Text>
+        <View className="flex-col p-3">
+          <TouchableOpacity style={{
+            shadowColor: "#111111",
+            shadowOffset: {height: "5px", width: "0px"},
+            shadowRadius: 3.14,
+            shadowOpacity: 0.5,
+            elevation: 3,
+            zIndex: 4
+           }}  onPress={() => navigation.navigate('AttendancePage')} className="w-full h-[15vh] mb-3 bg-[#4643cd] rounded-3xl justify-center items-center">
+           <View className="flex-row">
+            <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <Icon name="pencil" size={16} color="#ffffff"/>
+            </View>
+            
+            <Text className="text-white font-plight text-xl" >Attendance</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.box}>
-            <Text style={styles.title}>Records</Text>
+          <TouchableOpacity style={{
+            shadowColor: "#111111",
+            shadowOffset: {height: "5px", width: "0px"},
+            shadowRadius: 3.14,
+            shadowOpacity: 0.5,
+            elevation: 3,
+            zIndex: 4
+           }}  onPress={() => alert("Record Clicked")} className="w-full h-[15vh]  bg-[#4643cd] mb-3 rounded-3xl justify-center items-center">
+           <View className="flex-row">
+           <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <Icon name="list-ol" size={16} color="#ffffff"/>
+            </View>
+            
+            <Text className="text-white font-plight text-xl" >Records</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.box}>
-            <Text style={styles.title}>My Schedule</Text>
+          <TouchableOpacity style={{
+            shadowColor: "#111111",
+            shadowOffset: {height: "5px", width: "0px"},
+            shadowRadius: 3.14,
+            shadowOpacity: 0.5,
+            elevation: 3,
+            zIndex: 4
+           }}  onPress={() =>alert("Working on it sir!")} className="w-full h-[15vh] mb-3 bg-[#4643cd] rounded-3xl justify-center items-center">
+           <View className="flex-row">
+
+            <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <Icon name="paperclip" size={16} color="#ffffff"/>
+            </View>
+
+            <Text className="text-white font-plight text-xl" >My Schedule</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.box} onPress={() => navigation.navigate("NotificationPage")}>
-            <Text style={styles.title}>Make Announcement</Text>
+          <TouchableOpacity style={{
+            shadowColor: "#111111",
+            shadowOffset: {height: "5px", width: "0px"},
+            shadowRadius: 3.14,
+            shadowOpacity: 0.5,
+            elevation: 3,
+            zIndex: 4
+           }} onPress={() => navigation.navigate('NotificationPage')} className="w-full h-[15vh] mb-3  bg-[#4643cd] rounded-3xl justify-center items-center">
+           <View className="flex-row">
+           <View  className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <Icon name="bell-o" size={16} color="#ffffff"/>
+            </View>
+            
+            <Text className="text-white font-plight text-xl" >Make Notification</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
+  // #5756cd  #4643cd
 }
 
 const styles = StyleSheet.create({

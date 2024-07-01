@@ -1,27 +1,27 @@
 const mongoose = require('mongoose');
+
 const notificationSchema = new mongoose.Schema({
-    title:{
+    title: {
         type: String,
         required: true
     },
-    message:{
+    message: {
         type: String,
         required: true
     },
-    date:{
-        type: Date,
-        required: true
-    },
-    time:{
+    date: {
         type: String,
         required: true
-    }, 
-    class:{
+    },
+    time: {
         type: String,
         required: true
     }
-  
-});
+}, { timestamps: true });
 
-const Notification = mongoose.model('Notification', notificationSchema);
-module.exports = Notification;
+const getNotificationModel = (department, semester) => {
+    const collectionName = `${department}_${semester}_Notifications`;
+    return mongoose.model(collectionName, notificationSchema);
+};
+
+module.exports = getNotificationModel;

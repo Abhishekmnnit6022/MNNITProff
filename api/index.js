@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net").then(
+mongoose.connect("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/CollegeNotifications").then(
     () => {
         console.log("Database connected");
     }
@@ -26,12 +26,12 @@ app.listen(port, () => {
 });
 
 
-
-//end point for fetching  classSchedule
+//importing the models
 const Attendance = require('./models/attendance'); // Import the Attendance model
 
 const classSchedule = require('./models/classSchedule');
-const Notification = require('./models/notification');
+const getNotificationModel = require('./models/notification');
+
 
 
 app.get('/classSchedule', async (req, res) => {
@@ -59,16 +59,34 @@ app.post('/submitAttendance', async (req, res) => {
 
 
 //end point for pushing notification
+
 app.post('/pushNotification', async (req, res) => {
     try {
-      const notificationData = req.body;
-      const result = await Notification.insertMany(notificationData);
-      res.status(200).json({ message: "Notification pushed successfully", data: result });
+        const { title, message, date, time, department, semester } = req.body;
+        
+        const NotificationModel = getNotificationModel(department, semester);
+        
+        const notificationData = { title, message, date, time };
+        const result = await NotificationModel.create(notificationData);
+        
+        res.status(200).json({ message: "Notification pushed successfully", data: result });
     } catch (err) {
-      res.status(500).json({ message: "Failed to push notification", error: err.message });
+        res.status(500).json({ message: "Failed to push notification", error: err.message });
     }
-
-
 });
 
-  
+
+
+//end point for fetching notification
+
+app.get('/notifications/:department/:semester', async (req, res) => {
+  try {
+      const { department, semester } = req.params;
+      const NotificationModel = getNotificationModel(department, semester);
+      
+      const notifications = await NotificationModel.find().sort({ createdAt: -1 });
+      res.status(200).json(notifications);
+  } catch (err) {
+      res.status(500).json({ message: "Failed to fetch notifications", error: err.message });
+  }
+});
