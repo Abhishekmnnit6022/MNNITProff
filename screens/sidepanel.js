@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
   },
   logout:{
     marginTop:600,
-    fontSize:20,
     backgroundColor:"#4643cd",
     padding:15,
     borderRadius:20,
