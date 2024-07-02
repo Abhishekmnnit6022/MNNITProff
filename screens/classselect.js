@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Classselect() {
+
+  const departments = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2","E1", "E2", "F1", "F2", "G1", "G2", "H1", "H2", "I1", "J1", "K1", "L1", "M1", "N1", "N2", "O1"];
+  const semesters = ['1', '2', '3', '4', '5', '6', '7', '8'];
   const navigation = useNavigation();
   const [selectedSem, setSelectedSem] = useState(null);
   const [selectedG, setSelectedG] = useState(null);
@@ -13,70 +16,43 @@ export default function Classselect() {
   };
 
   return (
+    <SafeAreaView style={styles.container}>
     <View style={styles.container}>
-      <Text style={styles.label}>Select Semester:</Text>
-      <RNPickerSelect
-        onValueChange={(value) => setSelectedSem(value)}
-        items={[
-          { label: "SEM 1", value: "1" },
-          { label: "SEM 2", value: "2" },
-          { label: "SEM 3", value: "3" },
-          { label: "SEM 4", value: "4" },
-          { label: "SEM 5", value: "5" },
-          { label: "SEM 6", value: "6" },
-          { label: "SEM 7", value: "7" },
-          { label: "SEM 8", value: "8" },
-        ]}
-        style={pickerSelectStyles}
-        placeholder={{ label: "Select Semester...", value: null }}
-      />
+      <Text style={{fontSize: 30, color: 'white', textAlign: 'center', marginBottom: 20}}>Select Class</Text>
+      
+      <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedG}
+            onValueChange={(itemValue) => setSelectedG(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a department" value="" />
+            {departments.map((dept) => (
+              <Picker.Item key={dept} label={dept} value={dept}  style={{color:"black"}} />
+            ))}
+          </Picker>
+        </View>
+        <View style={styles.pickerContainer}>
 
-      <View style={{ marginTop: 40 }}>
-        <Text style={styles.label}>Select Group:</Text>
-        <RNPickerSelect
-          onValueChange={(value) => setSelectedG(value)}
-          items={[
-            { label: "A1", value: "A1" },
-            { label: "A2", value: "A2" },
-            { label: "B1", value: "B1" },
-            { label: "B2", value: "B2" },
-            { label: "C1", value: "C1" },
-            { label: "C2", value: "C2" },
-            { label: "D1", value: "D1" },
-            { label: "D2", value: "D2" },
-            { label: "E1", value: "E1" },
-            { label: "E2", value: "E2" },
-            { label: "F1", value: "F1" },
-            { label: "F2", value: "F2" },
-            { label: "G1", value: "G1" },
-            { label: "G2", value: "G2" },
-            { label: "H1", value: "H1" },
-            { label: "H2", value: "H2" },
-            { label: "I1", value: "I1" },
-            { label: "I2", value: "I2" },
-            { label: "J1", value: "J1" },
-            { label: "J2", value: "J2" },
-            { label: "K1", value: "K1" },
-            { label: "K2", value: "K2" },
-            { label: "L1", value: "L1" },
-            { label: "L2", value: "L2" },
-            { label: "M1", value: "M1" },
-            { label: "M2", value: "M2" },
-            { label: "N1", value: "N1" },
-            { label: "N2", value: "N2" },
-            { label: "O1", value: "O1" },
-          ]}
-          style={pickerSelectStyles}
-          placeholder={{ label: "Select Group...", value: null }}
-        />
-      </View>
+          <Picker
+            selectedValue={selectedSem}
+            onValueChange={(itemValue) => setSelectedSem(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a semester" value="" />
+            {semesters.map((sem) => (
+              <Picker.Item key={sem} label={sem} value={sem} style={{color:"black"}} />
+            ))}
+          </Picker>
+        </View>
 
       <TouchableOpacity onPress={handleAttendancePress}>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>Take Attendance</Text>
+          <Text style={styles.buttonText}>Select</Text>
         </View>
       </TouchableOpacity>
     </View>
+    </SafeAreaView>
   );
 }
 
@@ -84,15 +60,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    marginTop: 150,
+    backgroundColor: '#1f1f1f',
    
+  },
+  pickerContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  picker: {
+    color: '#fff',
   },
   label: {
     fontSize: 20,
     marginBottom: 8,
   },
   button: {
-    backgroundColor: "#B095FD",
+    backgroundColor: "#4643cd",
     height: 50,
     width: 200,
     alignSelf: 'center',
@@ -105,17 +89,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: 'white',
-  },
-});
-
-const pickerSelectStyles = StyleSheet.create({
-  input: {
-    fontSize: 18,
-    paddingHorizontal: 10,
-    borderWidth: 1.5,
-    borderColor: "purple",
-    borderRadius: 8,
-    color: "black",
-    paddingRight: 30,
   },
 });

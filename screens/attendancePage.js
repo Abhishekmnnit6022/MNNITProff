@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, SafeAreaView, StyleSheet, Text } from 'react-native';
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
@@ -10,22 +10,23 @@ const AttendancePage = () => {
   const [studentData, setStudentData] = useState([]);
   const [error, setError] = useState(null);
 
-  const fetchStudentData = async (group, semester) => {
+  const fetchStudentData = useCallback(async (group, semester) => {
     try {
-      const response = await axios.get(`http://192.168.29.178:8081/students/${group}/${semester}`);
+      const response = await axios.get(`http://localhost:8000/students/${group}/${semester}`);
       setStudentData(response.data);
-      setError(null); 
+      setError(null);
     } catch (error) {
       console.error("Error in fetching student list", error);
       setError("Failed to fetch student data");
     }
-  };
+  }, []);
 
   useEffect(() => {
+    console.log('group seleceted:', group, 'semester selected:', semester);
     if (group && semester) {
       fetchStudentData(group, semester);
     }
-  }, [group, semester]);
+  }, [group, semester, fetchStudentData]);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -64,6 +64,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 30,
   },
+  testButton:{backgroundColor: '#4643cd',
+    width: 200,
+    height: 50,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+
+  },
   buttonText: {
     color: '#fff',
     fontSize: 20,
@@ -131,6 +140,10 @@ export default function LoginScreen({ navigation }) {
 
         <TouchableOpacity style={styles.loginButton} onPress={loginInfo}>
           <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.testButton} onPress={() =>    navigation.navigate("Home")}>
+          <Text style={styles.buttonText}>Test</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Forget Password")}>
