@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Switch, Button, Alert } from 'react-native';
+import React, { useState ,useEffect} from 'react';
+import { View, Text, FlatList, StyleSheet, Switch, Button, Alert, Platform, ActivityIndicator } from 'react-native';
 import { CheckBox } from '@rneui/themed';
 import axios from 'axios';
+const os = Platform.OS;
+let count = 0;
+
 
 const StudentList = ({ data }) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [isAbsentMode, setIsAbsentMode] = useState(false);
 
-  const toggleMode = () => setIsAbsentMode(prevMode => !prevMode);
 
+
+  const [isloading, setIsLoading] = useState(true);
+
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }},[data]); 
+  const toggleMode = () => setIsAbsentMode(prevMode => !prevMode);
   const toggleCheckbox = (id) => {
     setCheckedItems(prevState => ({
       ...prevState,
@@ -18,21 +31,17 @@ const StudentList = ({ data }) => {
 
   const submitAttendance = async () => {
     const attendanceData = data.map(student => ({
-      studentRegNo: student.studentRegNo,
-      studentName: student.studentName,
+      regNo: student.regNo,
+      name: student.name,
       date: new Date(),
       status: isAbsentMode 
-        ? (checkedItems[student.studentRegNo] ? 'Absent' : 'Present')
-        : (checkedItems[student.studentRegNo] ? 'Present' : 'Absent')
+        ? (checkedItems[student.regNo] ? 'Absent' : 'Present')
+        : (checkedItems[student.name] ? 'Present' : 'Absent')
     }));
 
     try {
       const response = await axios.post('http://localhost:8000/submitAttendance', attendanceData);
-      if (response.status === 200) {
-        Alert.alert('Success', 'Attendance submitted successfully');
-      } else {
-        Alert.alert('Error', 'Failed to submit attendance');
-      }
+      Alert.alert('Success', 'Attendance submitted successfully');
     } catch (error) {
       Alert.alert('Error', 'Failed to submit attendance');
       console.error(error);
@@ -41,20 +50,21 @@ const StudentList = ({ data }) => {
 
   const renderItem = ({ item, index }) => (
     <View style={[styles.row, index % 2 === 0 ? styles.evenRow : styles.oddRow]}>
+
       <View style={[styles.cell, styles.regNoCell]}>
-        <Text>{item.studentRegNo}</Text>
+        <Text>{item.regNo}</Text>
       </View>
       <View style={[styles.cell, styles.nameCell]}>
-        <Text>{item.studentName}</Text>
+        <Text>{item.name}</Text>
       </View>
       <View style={[styles.cell, styles.checkboxCell]}>
         <CheckBox
-          checked={checkedItems[item.studentRegNo] || false}
-          onPress={() => toggleCheckbox(item.studentRegNo)}
+          checked={checkedItems[item.regNo] || false}
+          onPress={() => toggleCheckbox(item.regNo)}
           iconType="material-community"
           checkedIcon="checkbox-marked"
           uncheckedIcon="checkbox-blank-outline"
-          checkedColor={isAbsentMode ? 'red' : 'green'}
+          checkedColor={isAbsentMode ? 'red' : '#329F5B'}
           containerStyle={styles.checkbox}
         />
       </View>
@@ -79,23 +89,27 @@ const StudentList = ({ data }) => {
         <Switch
           value={isAbsentMode}
           onValueChange={toggleMode}
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isAbsentMode ? "#f5dd4b" : "#f4f3f4"}
+          trackColor={{ false: "#767577", true: "#DDDDDE" }}
+          thumbColor={isAbsentMode ? "#FF000D" : "#329F5B"}
         />
       </View>
     </View>
   );
 
   return (
+    
     <View style={styles.container}>
+      {isloading ? <ActivityIndicator size="large" color="grey" /> : 
       <FlatList
-        data={data}
+        data={data}x
         renderItem={renderItem}
-        keyExtractor={(item) => item.studentRegNo}
+        keyExtractor={(item) => item.regNo}
         ListHeaderComponent={ListHeader}
+        ListEmptyComponent={<ActivityIndicator size="large" color="grey" />}
         stickyHeaderIndices={[0]}
-      />
+      />}
       <Button title="Submit Attendance" onPress={submitAttendance} style={styles.submitButton} />
+
     </View>
   );
 };
@@ -103,6 +117,7 @@ const StudentList = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: os == "android" ? 50: 0
   },
   row: {
     flexDirection: 'row',
@@ -158,6 +173,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   submitButton: {
+    backgroundColor: '#4643cd',
     margin: 10,
   },
 });

@@ -50,7 +50,7 @@ const NotificationPage = () => {
         
         <TextInput
           style={styles.input}
-          placeholder="Enter notification title"
+          placeholder="Enter your name or department"
           placeholderTextColor="#999"
           value={title}
           onChangeText={setTitle}

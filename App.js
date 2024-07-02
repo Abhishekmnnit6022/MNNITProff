@@ -47,7 +47,7 @@ function MainStackNavigator() {
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="AttendancePage" component={AttendancePage} />
+      <Stack.Screen name="AttendancePage" component={AttendancePage} options={{headerShown: false}} />
       <Stack.Screen name="NotificationPage" component={NotificationPage} />
       <Stack.Screen name="Forget Password" component={ForgetScreen} />
     </Stack.Navigator>
