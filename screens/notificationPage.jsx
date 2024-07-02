@@ -73,7 +73,7 @@ const NotificationPage = () => {
           >
             <Picker.Item label="Select a department" value="" />
             {departments.map((dept) => (
-              <Picker.Item key={dept} label={dept} value={dept} />
+              <Picker.Item key={dept} label={dept} value={dept}  style={{color:"black"}} />
             ))}
           </Picker>
         </View>
@@ -86,7 +86,7 @@ const NotificationPage = () => {
           >
             <Picker.Item label="Select a semester" value="" />
             {semesters.map((sem) => (
-              <Picker.Item key={sem} label={sem} value={sem} />
+              <Picker.Item key={sem} label={sem} value={sem} style={{color:"black"}} />
             ))}
           </Picker>
         </View>

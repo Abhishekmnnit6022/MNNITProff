@@ -45,11 +45,11 @@ function MainStackNavigator() {
   if (!fontsLoaded && !error ) return null;
   return (
     <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="AttendancePage" component={AttendancePage} options={{headerShown: false}} />
-      <Stack.Screen name="NotificationPage" component={NotificationPage} />
-      <Stack.Screen name="Forget Password" component={ForgetScreen} />
+      <Stack.Screen name="NotificationPage" component={NotificationPage} options={{ headerShown: false }}/>
+      <Stack.Screen name="Forget Password" component={ForgetScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 }
