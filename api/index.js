@@ -29,19 +29,20 @@ app.listen(port, () => {
 
 //importing the models
 const Attendance = require("./models/attendance"); // Import the Attendance model
-
 const classSchedule = require("./models/classSchedule");
 const getNotificationModel = require("./models/notification");
 const getStudentModel = require("./models/student");
 
 app.get("/classSchedule", async (req, res) => {
   try {
-    const classScheduleData = await classSchedule.find();
-    res.status(200).json(classScheduleData);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch class schedule" });
+    const response = await axios.get('http://192.168.29.178:8000/classSchedule'); // Assuming this is your backend API endpoint
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error fetching class schedule:', error.message);
+    res.status(500).json({ message: "Failed to fetch class schedule", error: error.message });
   }
 });
+
 
 // New endpoint for submitting attendance
 app.post("/submitAttendance", async (req, res) => {

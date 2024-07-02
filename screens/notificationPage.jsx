@@ -29,7 +29,7 @@ const NotificationPage = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8000/pushNotification', notificationData);
+      const response = await axios.post('http://192.168.29.178:8000/pushNotification', notificationData);
       alert('Notification sent successfully');
       setTitle('');
       setMessage('');
@@ -69,7 +69,7 @@ const NotificationPage = () => {
           <Picker
             selectedValue={selectedDepartment}
             onValueChange={(itemValue) => setSelectedDepartment(itemValue)}
-            style={styles.picker}
+          
           >
             <Picker.Item label="Select a department" value="" />
             {departments.map((dept) => (
@@ -82,7 +82,7 @@ const NotificationPage = () => {
           <Picker
             selectedValue={selectedSemester}
             onValueChange={(itemValue) => setSelectedSemester(itemValue)}
-            style={styles.picker}
+            
           >
             <Picker.Item label="Select a semester" value="" />
             {semesters.map((sem) => (
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1E1E1E',
+
   },
   content: {
     padding: 20,
@@ -114,10 +115,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 20,
+    marginTop: 70,
   },
   input: {
     backgroundColor: '#fff',
-    color: 'black12',
+  
     padding: 15,
     borderRadius: 5,
     marginBottom: 20,
@@ -130,9 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
   },
-  picker: {
-    color: '#fff',
-  },
+  
   button: {
     backgroundColor: '#4643cd',
     padding: 15,

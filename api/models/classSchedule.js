@@ -1,23 +1,22 @@
 const mongoose = require('mongoose');
 const classScheduleSchema = new mongoose.Schema({
-
-    branchID:{
+    branchID: {
         type: String,
         required: true
     },
-    subjectName:{
+    subjectName: {
         type: String,
         required: true
     },
-    venue:{
+    venue: {
         type: String,
         required: true
     },
-    time:{
+    time: {
         type: String,
         required: true
     }
 });
 
-const ClassSchedule = mongoose.model('ClassSchedule', classScheduleSchema);
-module.exports = ClassSchedule;
+const classSchedule = mongoose.model('ClassSchedule', classScheduleSchema);
+module.exports = classSchedule;

@@ -142,10 +142,6 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.testButton} onPress={() =>    navigation.navigate("Home")}>
-          <Text style={styles.buttonText}>Test</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity onPress={() => navigation.navigate("Forget Password")}>
           <Text style={styles.subTitle2}>Forget Password?</Text>
         </TouchableOpacity>

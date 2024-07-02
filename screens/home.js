@@ -15,23 +15,27 @@ import { useNavigation, DrawerActions } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import ClassCard from "../components/ClassCard";
+import 'react-native-get-random-values';
+
 
 export default function HomeScreen(){
   const navigation = useNavigation();
   const [classSchedule, setClassSchedule] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchClassSchedule = async () => {
       try {
-        const response = await axios.get("http://192.168.29.178:8000/classSchedule");
-        console.log(response.data); // Log the fetched data
+        const response = await axios.get('http://192.168.29.178:8000/classSchedule');
         setClassSchedule(response.data);
       } catch (error) {
-        console.log(`Error in fetching classSchedule ${error}`);
+        console.error('Error fetching class schedule:', error);
       }
     };
+
     fetchClassSchedule();
   }, []);
+
 
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -39,17 +43,20 @@ export default function HomeScreen(){
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={openDrawer}>
-            <Icon name="bars" size={24} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Today's Classes</Text>
-          <Pressable onPress={() => Alert.alert("Working on this")}>
-            <Icon name="bell" size={24} color="grey" />
-          </Pressable>
-        </View>
+    <ScrollView>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={openDrawer}>
+          <Icon name="bars" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Today's Classes</Text>
+        <Pressable onPress={() => Alert.alert("Working on this")}>
+          <Icon name="bell" size={24} color="grey" />
+        </Pressable>
+      </View>
 
+      {error ? (
+        <Text style={styles.error}>{error}</Text>
+      ) : (
         <View style={styles.classListContainer}>
           <FlatList
             data={classSchedule}
@@ -60,10 +67,11 @@ export default function HomeScreen(){
                 time={item.time}
               />
             )}
-            keyExtractor={(item) => item.subjectName.toString()}
+            keyExtractor={(item, index) => index.toString()}
             horizontal
           />
         </View>
+      )}
 
         <View className="flex-col p-3">
           <TouchableOpacity
@@ -74,8 +82,9 @@ export default function HomeScreen(){
               shadowOpacity: 0.5,
               elevation: 3,
               zIndex: 4,
+              
             }}
-            onPress={() => navigation.navigate("Select Class for Attendance")}
+            onPress={() => navigation.navigate("Select Class")}
             className="w-full h-[15vh] mb-3 bg-[#4643cd] rounded-3xl justify-center items-center"
           >
             <View className="flex-row items-center">
@@ -132,7 +141,7 @@ export default function HomeScreen(){
               elevation: 3,
               zIndex: 4,
             }}
-            onPress={() => navigation.navigate("NotificationPage")}
+            onPress={() => navigation.navigate("Notification Page")}
             className="w-full h-[15vh] mb-3  bg-[#4643cd] rounded-3xl justify-center items-center"
           >
             <View className="flex-row items-center">

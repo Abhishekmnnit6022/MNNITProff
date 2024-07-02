@@ -40,7 +40,8 @@ const StudentList = ({ data }) => {
     }));
 
     try {
-      const response = await axios.post('hhttp://192.168.29.178:8081/submitAttendance', attendanceData);
+       //change port according to your server
+      const response = await axios.post('http://192.168.29.178:8000/submitAttendance', attendanceData);
       Alert.alert('Success', 'Attendance submitted successfully');
     } catch (error) {
       Alert.alert('Error', 'Failed to submit attendance');
@@ -117,7 +118,7 @@ const StudentList = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: os == "android" ? 50: 0
+    marginTop: os == "android" ? 70: 0
   },
   row: {
     flexDirection: 'row',
