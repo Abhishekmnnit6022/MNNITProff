@@ -81,17 +81,18 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const loginInfo = () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please fill out all fields.')}
-    else if (!emailRegex.test(email)) {
-      Alert.alert('Error', 'Please enter a valid institutional email address.');
-    }
-    else if((password.length)<4){
-      Alert.alert('Password can\'t be less than 4 character');
-    }
-     else {
+    // if (!email || !password) {
+    //   Alert.alert('Error', 'Please fill out all fields.')}
+    // else if (!emailRegex.test(email)) {
+    //   Alert.alert('Error', 'Please enter a valid institutional email address.');
+    // }
+    // else if((password.length)<4){
+    //   Alert.alert('Password can\'t be less than 4 character');
+    // }
+    //  else {
+    
       navigation.navigate("Home");
-    }
+    // }
   };
 
   return (

@@ -10,7 +10,7 @@ const SidePanelContent = ({ navigation }) => {
     
       <TouchableOpacity onPress={()=>navigation.navigate("Login")}>
         <View style={styles.logout}>
-          <Text className="text-white font-plight text-[16rem]">
+          <Text>
           Logout
           </Text>
         </View>

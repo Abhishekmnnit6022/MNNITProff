@@ -14,6 +14,8 @@ import { useEffect } from 'react';
 import { SplashScreen} from "expo-router";
 
 import { useFonts } from 'expo-font';
+import Classselect from './screens/classselect';
+
 
 
 
@@ -50,6 +52,8 @@ function MainStackNavigator() {
       <Stack.Screen name="AttendancePage" component={AttendancePage} options={{headerShown: false}} />
       <Stack.Screen name="NotificationPage" component={NotificationPage} options={{ headerShown: false }}/>
       <Stack.Screen name="Forget Password" component={ForgetScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Select Class for Attendance" component={Classselect}/>
+
     </Stack.Navigator>
   );
 }

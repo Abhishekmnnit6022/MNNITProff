@@ -16,14 +16,15 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import ClassCard from "../components/ClassCard";
 
-export default function HomeScreen() {
+export default function HomeScreen(){
   const navigation = useNavigation();
   const [classSchedule, setClassSchedule] = useState([]);
 
   useEffect(() => {
     const fetchClassSchedule = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/classSchedule");
+        const response = await axios.get("http://192.168.29.178:8000/classSchedule");
+        console.log(response.data); // Log the fetched data
         setClassSchedule(response.data);
       } catch (error) {
         console.log(`Error in fetching classSchedule ${error}`);
@@ -59,7 +60,7 @@ export default function HomeScreen() {
                 time={item.time}
               />
             )}
-            keyExtractor={(item) => item.subjectName}
+            keyExtractor={(item) => item.subjectName.toString()}
             horizontal
           />
         </View>
@@ -74,14 +75,13 @@ export default function HomeScreen() {
               elevation: 3,
               zIndex: 4,
             }}
-            onPress={() => navigation.navigate("AttendancePage")}
+            onPress={() => navigation.navigate("Select Class for Attendance")}
             className="w-full h-[15vh] mb-3 bg-[#4643cd] rounded-3xl justify-center items-center"
           >
             <View className="flex-row items-center">
               <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
                 <Icon name="pencil" size={16} color="#ffffff" />
               </View>
-
               <Text className="text-white font-plight text-xl">Attendance</Text>
             </View>
           </TouchableOpacity>
@@ -101,7 +101,6 @@ export default function HomeScreen() {
               <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
                 <Icon name="list-ol" size={16} color="#ffffff" />
               </View>
-
               <Text className="text-white font-plight text-xl">Records</Text>
             </View>
           </TouchableOpacity>
@@ -121,10 +120,7 @@ export default function HomeScreen() {
               <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
                 <Icon name="paperclip" size={16} color="#ffffff" />
               </View>
-
-              <Text className="text-white font-plight text-xl">
-                My Schedule
-              </Text>
+              <Text className="text-white font-plight text-xl">My Schedule</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -143,17 +139,13 @@ export default function HomeScreen() {
               <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
                 <Icon name="bell-o" size={16} color="#ffffff" />
               </View>
-
-              <Text className="text-white font-plight text-xl">
-                Make Notification
-              </Text>
+              <Text className="text-white font-plight text-xl">Make Notification</Text>
             </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
-  // #5756cd  #4643cd
 }
 
 const styles = StyleSheet.create({
@@ -176,29 +168,5 @@ const styles = StyleSheet.create({
   classListContainer: {
     paddingHorizontal: 12,
     paddingBottom: 8,
-  },
-  menuContainer: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    alignItems: "center",
-    paddingTop: 20,
-  },
-  box: {
-    marginVertical: 20,
-    height: 150,
-    width: 150,
-    backgroundColor: "#f4779f",
-    borderRadius: 20,
-    margin: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 19,
-    color: "#3308f3",
-    textAlign: "center",
-    fontWeight: "bold",
   },
 });

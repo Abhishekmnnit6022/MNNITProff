@@ -40,7 +40,7 @@ const StudentList = ({ data }) => {
     }));
 
     try {
-      const response = await axios.post('http://localhost:8000/submitAttendance', attendanceData);
+      const response = await axios.post('hhttp://192.168.29.178:8081/submitAttendance', attendanceData);
       Alert.alert('Success', 'Attendance submitted successfully');
     } catch (error) {
       Alert.alert('Error', 'Failed to submit attendance');
