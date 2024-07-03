@@ -26,16 +26,17 @@ export default function HomeScreen(){
   useEffect(() => {
     const fetchClassSchedule = async () => {
       try {
-        const response = await axios.get('http://192.168.29.178:8000/classSchedule');
+        //chnage the port number
+        const response = await axios.get('http://192.168.29.178:8000/classSchedules');
         setClassSchedule(response.data);
       } catch (error) {
         console.error('Error fetching class schedule:', error);
+        setError('Failed to fetch class schedule');
       }
     };
-
+  
     fetchClassSchedule();
   }, []);
-
 
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -43,33 +44,33 @@ export default function HomeScreen(){
 
   return (
     <SafeAreaView style={styles.safeArea}>
-    <ScrollView>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={openDrawer}>
-          <Icon name="bars" size={24} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerText}>Today's Classes</Text>
-        <Pressable onPress={() => Alert.alert("Working on this")}>
-          <Icon name="bell" size={24} color="grey" />
-        </Pressable>
-      </View>
+      <ScrollView>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={openDrawer}>
+            <Icon name="bars" size={24} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Today's Classes</Text>
+          <TouchableOpacity onPress={() => Alert.alert("Working on this")}>
+            <Icon name="bell" size={24} color="grey" />
+          </TouchableOpacity>
+        </View>
 
-      {error ? (
-        <Text style={styles.error}>{error}</Text>
-      ) : (
-        <View style={styles.classListContainer}>
-          <FlatList
-            data={classSchedule}
-            renderItem={({ item }) => (
-              <ClassCard
-                subjectName={item.subjectName}
-                venue={item.venue}
-                time={item.time}
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            horizontal
-          />
+        {error ? (
+          <Text style={styles.error}>{error}</Text>
+        ) : (
+          <View style={styles.classListContainer}>
+            <FlatList
+              data={classSchedule}
+              renderItem={({ item }) => (
+                <ClassCard
+                  subjectName={item.subjectName}
+                  venue={item.venue}
+                  time={item.time}
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal
+            />
         </View>
       )}
 
@@ -82,6 +83,7 @@ export default function HomeScreen(){
               shadowOpacity: 0.5,
               elevation: 3,
               zIndex: 4,
+          
               
             }}
             onPress={() => navigation.navigate("Select Class")}

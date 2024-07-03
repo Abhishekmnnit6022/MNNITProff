@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-
+const axios = require('axios');
 const app = express();
 const port = 8000;
 const cors = require("cors");
@@ -10,13 +10,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// mongoose.connect("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/StudentDetails").then(
-//     () => {
-//         console.log("Database connected");
-//     }
-// ).catch(err => {
-//     console.log(err);
-// });
+mongoose.connect("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/StudentDetails").then(
+    () => {
+        console.log("Database connected");
+    }
+).catch(err => {
+    console.log(err);
+});
 const { connectStudentDetails } = require("./dbConfig");
 
 Promise.all([connectStudentDetails]).then(() => {
@@ -33,15 +33,22 @@ const classSchedule = require("./models/classSchedule");
 const getNotificationModel = require("./models/notification");
 const getStudentModel = require("./models/student");
 
-app.get("/classSchedule", async (req, res) => {
+
+
+
+// Endpoint for fetching class schedule
+app.get("/classSchedules", async (req, res) => {
   try {
-    const response = await axios.get('http://192.168.29.178:8000/classSchedule'); // Assuming this is your backend API endpoint
-    res.status(200).json(response.data);
+    const schedules = await classSchedule.find({});
+    res.status(200).json(schedules);
   } catch (error) {
-    console.error('Error fetching class schedule:', error.message);
+    console.error('Error fetching class schedule:', error);
     res.status(500).json({ message: "Failed to fetch class schedule", error: error.message });
   }
 });
+
+
+
 
 
 // New endpoint for submitting attendance

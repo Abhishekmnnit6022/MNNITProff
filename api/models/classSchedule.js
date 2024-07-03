@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const classScheduleSchema = new mongoose.Schema({
     branchID: {
         type: String,
@@ -18,5 +19,6 @@ const classScheduleSchema = new mongoose.Schema({
     }
 });
 
-const classSchedule = mongoose.model('ClassSchedule', classScheduleSchema);
+const classSchedule = mongoose.model('ClassSchedule', classScheduleSchema, 'classschedules'); 
+
 module.exports = classSchedule;
