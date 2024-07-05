@@ -1,8 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import LoginScreen from "./login";
-import { LinearGradient } from "expo-linear-gradient";
 
 const SidePanelContent = ({ navigation }) => {
   return (

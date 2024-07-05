@@ -8,7 +8,6 @@ const NotificationPage = () => {
   const [message, setMessage] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedSemester, setSelectedSemester] = useState('');
-  const host = " http://localhost:8000";
 
   const departments = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2","E1", "E2", "F1", "F2", "G1", "G2", "H1", "H2", "I1", "J1", "K1", "L1", "M1", "N1", "N2", "O1"];
   const semesters = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'];
@@ -30,7 +29,7 @@ const NotificationPage = () => {
     };
 
     try {
-      const response = await axios.post(`${host}/pushNotification`, notificationData);
+      const response = await axios.post(`https://emnnitproffserver.onrender.com/pushNotification`, notificationData);
       alert('Notification sent successfully');
       setTitle('');
       setMessage('');

@@ -27,7 +27,7 @@ export default function HomeScreen(){
     const fetchClassSchedule = async () => {
       try {
         //chnage the port number
-        const response = await axios.get(`http://localhost:8000/classSchedules/A1/3/Friday`);
+        const response = await axios.get(`https://emnnitproffserver.onrender.com/classSchedules/A1/3/Friday`);
         setClassSchedule(response.data);
       } catch (error) {
         console.error('Error fetching class schedule:', error);
