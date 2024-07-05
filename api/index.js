@@ -1,7 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const axios = require('axios');
 const app = express();
 const port = 8000;
 const cors = require("cors");
@@ -10,26 +8,23 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/StudentDetails").then(
-    () => {
-        console.log("Database connected");
-    }
-).catch(err => {
-    console.log(err);
-});
-const { connectStudentDetails } = require("./dbConfig");
+const { connectStudentDetails,connectClassSchedules,connectNotifications ,connectAttendanceDetails} = require("./dbConfig");
 
-Promise.all([connectStudentDetails]).then(() => {
-  console.log("All database connections established");
-});
+Promise.all([
+  connectNotifications,
+  connectStudentDetails,
+  connectClassSchedules,
+  connectAttendanceDetails
+]).then(() => {
+  console.log("All database connections established")});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
 //importing the models
-const Attendance = require("./models/attendance"); // Import the Attendance model
-const classSchedule = require("./models/classSchedule");
+const getAttendanceModel = require("./models/attendance"); // Import the Attendance model
+const getclassSchedule = require("./models/classSchedule");
 const getNotificationModel = require("./models/notification");
 const getStudentModel = require("./models/student");
 
@@ -37,16 +32,21 @@ const getStudentModel = require("./models/student");
 
 
 // Endpoint for fetching class schedule
-app.get("/classSchedules", async (req, res) => {
+app.get('/classSchedules/:group/:semester/:day', async (req, res) => {
+  console.log("Request received in classSchedule API");
   try {
-    const schedules = await classSchedule.find({});
-    res.status(200).json(schedules);
-  } catch (error) {
-    console.error('Error fetching class schedule:', error);
-    res.status(500).json({ message: "Failed to fetch class schedule", error: error.message });
+    const { group, semester, day } = req.params;
+      console.log("group: ", group);
+      console.log("semester: ", semester);
+    const ClassScheduleModel = await getclassSchedule(group, semester);
+    const classSchedule = await ClassScheduleModel.find({ day }).sort({ createdAt: -1 });
+    console.log("classSchedule: ", classSchedule);
+    res.status(200).json(classSchedule);
+  } catch (err) {
+    console.error("Error fetching class schedule:", err);
+    res.status(500).json({ message: "Failed to fetch class schedule", error: err.message });
   }
 });
-
 
 
 
@@ -55,14 +55,21 @@ app.get("/classSchedules", async (req, res) => {
 app.post("/submitAttendance", async (req, res) => {
   try {
     const attendanceData = req.body;
-    const result = await Attendance.insertMany(attendanceData);
-    res
-      .status(200)
-      .json({ message: "Attendance submitted successfully", data: result });
+    console.log("attendanceData: from submit index", attendanceData);
+
+    if (attendanceData.length === 0) {
+      return res.status(400).json({ message: "No attendance data provided" });
+    }
+
+    const { group, semester } = attendanceData[0];
+    const AttendanceModel = await getAttendanceModel(group, semester);
+    
+    const result = await AttendanceModel.insertMany(attendanceData);
+    
+    res.status(200).json({ message: "Attendance submitted successfully", data: result });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to submit attendance", error: err.message });
+    console.error("Error submitting attendance:", err);
+    res.status(500).json({ message: "Failed to submit attendance", error: err.message });
   }
 });
 

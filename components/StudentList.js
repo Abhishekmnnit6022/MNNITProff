@@ -1,57 +1,74 @@
-import React, { useState ,useEffect} from 'react';
-import { View, Text, FlatList, StyleSheet, Switch, Button, Alert, Platform, ActivityIndicator } from 'react-native';
-import { CheckBox } from '@rneui/themed';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Switch,
+  Button,
+  Alert,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
+import { CheckBox } from "@rneui/themed";
+import axios from "axios";
 const os = Platform.OS;
 let count = 0;
 
-
-const StudentList = ({ data }) => {
+const StudentList = ({ data, group, semester }) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [isAbsentMode, setIsAbsentMode] = useState(false);
 
-
-
   const [isloading, setIsLoading] = useState(true);
-
 
   useEffect(() => {
     if (data.length > 0) {
       setIsLoading(false);
     } else {
       setIsLoading(true);
-    }},[data]); 
-  const toggleMode = () => setIsAbsentMode(prevMode => !prevMode);
+    }
+  }, [data]);
+  const toggleMode = () => setIsAbsentMode((prevMode) => !prevMode);
   const toggleCheckbox = (id) => {
-    setCheckedItems(prevState => ({
+    setCheckedItems((prevState) => ({
       ...prevState,
-      [id]: !prevState[id]
+      [id]: !prevState[id],
     }));
   };
 
   const submitAttendance = async () => {
-    const attendanceData = data.map(student => ({
+    const attendanceData = data.map((student) => ({
       regNo: student.regNo,
       name: student.name,
       date: new Date(),
-      status: isAbsentMode 
-        ? (checkedItems[student.regNo] ? 'Absent' : 'Present')
-        : (checkedItems[student.name] ? 'Present' : 'Absent')
+      status: isAbsentMode
+        ? checkedItems[student.regNo]
+          ? "Absent"
+          : "Present"
+        : checkedItems[student.regNo]
+        ? "Present"
+        : "Absent",
+      group: group,
+      semester: semester,
     }));
+    console.log(attendanceData);
 
     try {
-       //change port according to your server
-      const response = await axios.post('http://192.168.29.178:8000/submitAttendance', attendanceData);
-      Alert.alert('Success', 'Attendance submitted successfully');
+      const response = await axios.post(
+        `http://localhost:8000/submitAttendance`,
+        attendanceData
+      );
+      Alert.alert("Success", "Attendance submitted successfully");
     } catch (error) {
-      Alert.alert('Error', 'Failed to submit attendance');
+      Alert.alert("Error", "Failed to submit attendance");
       console.error(error);
     }
   };
 
   const renderItem = ({ item, index }) => (
-    <View style={[styles.row, index % 2 === 0 ? styles.evenRow : styles.oddRow]}>
-
+    <View
+      style={[styles.row, index % 2 === 0 ? styles.evenRow : styles.oddRow]}
+    >
       <View style={[styles.cell, styles.regNoCell]}>
         <Text>{item.regNo}</Text>
       </View>
@@ -65,7 +82,7 @@ const StudentList = ({ data }) => {
           iconType="material-community"
           checkedIcon="checkbox-marked"
           uncheckedIcon="checkbox-blank-outline"
-          checkedColor={isAbsentMode ? 'red' : '#329F5B'}
+          checkedColor={isAbsentMode ? "red" : "#329F5B"}
           containerStyle={styles.checkbox}
         />
       </View>
@@ -82,11 +99,15 @@ const StudentList = ({ data }) => {
           <Text style={styles.headerText}>Name</Text>
         </View>
         <View style={[styles.cell, styles.checkboxCell]}>
-          <Text style={styles.headerText}>{isAbsentMode ? 'Absent' : 'Present'}</Text>
+          <Text style={styles.headerText}>
+            {isAbsentMode ? "Absent" : "Present"}
+          </Text>
         </View>
       </View>
       <View style={styles.toggleContainer}>
-        <Text style={styles.toggleLabel}>{isAbsentMode ? 'Absent Mode' : 'Present Mode'}</Text>
+        <Text style={styles.toggleLabel}>
+          {isAbsentMode ? "Absent Mode" : "Present Mode"}
+        </Text>
         <Switch
           value={isAbsentMode}
           onValueChange={toggleMode}
@@ -98,19 +119,25 @@ const StudentList = ({ data }) => {
   );
 
   return (
-    
     <View style={styles.container}>
-      {isloading ? <ActivityIndicator size="large" color="grey" /> : 
-      <FlatList
-        data={data}x
-        renderItem={renderItem}
-        keyExtractor={(item) => item.regNo}
-        ListHeaderComponent={ListHeader}
-        ListEmptyComponent={<ActivityIndicator size="large" color="grey" />}
-        stickyHeaderIndices={[0]}
-      />}
-      <Button title="Submit Attendance" onPress={submitAttendance} style={styles.submitButton} />
-
+      {isloading ? (
+        <ActivityIndicator size="large" color="grey" />
+      ) : (
+        <FlatList
+          data={data}
+          x
+          renderItem={renderItem}
+          keyExtractor={(item) => item.regNo}
+          ListHeaderComponent={ListHeader}
+          ListEmptyComponent={<ActivityIndicator size="large" color="grey" />}
+          stickyHeaderIndices={[0]}
+        />
+      )}
+      <Button
+        title="Submit Attendance"
+        onPress={submitAttendance}
+        style={styles.submitButton}
+      />
     </View>
   );
 };
@@ -118,31 +145,31 @@ const StudentList = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: os == "android" ? 70: 0
+    marginTop: os == "android" ? 70 : 0,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    borderBottomColor: "#ddd",
   },
   headerContainer: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     borderBottomWidth: 2,
-    borderBottomColor: '#aaa',
+    borderBottomColor: "#aaa",
   },
   headerRow: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   evenRow: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   oddRow: {
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
   },
   cell: {
     flex: 1,
     padding: 10,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   regNoCell: {
     flex: 2,
@@ -152,29 +179,29 @@ const styles = StyleSheet.create({
   },
   checkboxCell: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   headerText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   checkbox: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     borderWidth: 0,
     padding: 0,
     margin: 0,
   },
   toggleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
     padding: 10,
   },
   toggleLabel: {
     marginRight: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   submitButton: {
-    backgroundColor: '#4643cd',
+    backgroundColor: "#4643cd",
     margin: 10,
   },
 });

@@ -22,12 +22,12 @@ export default function HomeScreen(){
   const navigation = useNavigation();
   const [classSchedule, setClassSchedule] = useState([]);
   const [error, setError] = useState(null);
-
+ 
   useEffect(() => {
     const fetchClassSchedule = async () => {
       try {
         //chnage the port number
-        const response = await axios.get('http://192.168.29.178:8000/classSchedules');
+        const response = await axios.get(`http://localhost:8000/classSchedules/A1/3/Friday`);
         setClassSchedule(response.data);
       } catch (error) {
         console.error('Error fetching class schedule:', error);

@@ -1,26 +1,3 @@
-// const { connectStudentDetails } = require('../dbConfig');
-// const mongoose = require('mongoose');
-
-// const studentSchema = new mongoose.Schema({
-//     regNo:{
-//         type: Number,
-//         unique: true,
-//         required: true
-//     },
-//     Group:{
-//         type: String,
-//         required: true
-//     },
-//     Semester:{
-//         type: Number,
-//         required: true
-//     },
-//     }
-// );
-
-// const Student = connectStudentDetails.model('Student', studentSchema);
-
-// module.exports = Student;
 
 const mongoose = require('mongoose');
 const { connectStudentDetails } = require('../dbConfig');

@@ -13,8 +13,8 @@ const ClassCard = ({ subjectName, venue, time }) => {
 
 const styles = StyleSheet.create({
   card: {
+    
     padding: 10,
-    height: 130,
     margin: 13,
     backgroundColor: '#f9f9f9',
     borderRadius: 8,

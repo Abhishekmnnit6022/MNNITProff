@@ -6,7 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const SidePanelContent = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <View className="justify-between" style={styles.container}>
       <Image
         source={require("./../assets/images/collegelogo.png")}
         style={{
@@ -16,24 +16,27 @@ const SidePanelContent = ({ navigation }) => {
           marginTop: 50,
         }}
       />
+      <View className="mb-7 items-center justify-center">
+      <TouchableOpacity>
+        <View className="rounded-3xl bg-[#4643cd] m-3 p-3 items-center">
+          <Text className="text-white font-pregular text-xl">
+            Forgot Password
+          </Text>
+        </View>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <View style={styles.logout}>
-          <Text style={{ fontSize: 23, fontWeight: "bold", color: "white" }}>
+        <View className="rounded-3xl bg-[#4643cd] m-3 p-3 items-center">
+          <Text className="text-white font-pregular text-xl">
             Logout
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <View style={styles.help}>
-          <Text style={{ fontSize: 23, fontWeight: "bold", color: "white" }}>
-            Help
-          </Text>
-        </View>
-      </TouchableOpacity>
+     
       <Text style={{ marginTop: 40, color: "black" }}>
         All rights reserved @MNNIT
       </Text>
+      </View>
     </View>
   );
 };
@@ -49,7 +52,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logout: {
-    marginTop: 250,
     justifyContent: "center",
     alignItems: "center",
     width: 200,

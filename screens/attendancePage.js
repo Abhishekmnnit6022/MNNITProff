@@ -9,7 +9,6 @@ import {
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import StudentList from "../components/StudentList";
-
 const AttendancePage = () => {
   const route = useRoute();
   const { group, semester } = route.params;
@@ -21,7 +20,7 @@ const AttendancePage = () => {
     try {
       //change port according to your server
       const response = await axios.get(
-        `http://192.168.29.178:8000/students/${group}/${semester}`
+        `http://localhost:8000/students/${group}/${semester}`
       );
       setStudentData(response.data);
       setLoading(false);
@@ -48,7 +47,7 @@ const AttendancePage = () => {
           <Text style={styles.errorText}>{error}</Text>
         </View>
       ) : (
-        <StudentList data={studentData} />
+        <StudentList data={studentData} group={group} semester={semester} />
       )}
     </SafeAreaView>
   );

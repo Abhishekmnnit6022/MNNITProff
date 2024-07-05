@@ -55,7 +55,7 @@ export default function Classselect() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
+      <View  style={styles.container}>
         <Text
           style={{
             fontSize: 40,
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#1E1E1E",
     justifyContent: "center",
+    alignItems: "center"
   },
   pickerContainer: {
     backgroundColor: "#ffffff89",

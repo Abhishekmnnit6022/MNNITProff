@@ -1,24 +1,21 @@
 const mongoose = require('mongoose');
+const { connectClassSchedules } = require('../dbConfig');
 
 const classScheduleSchema = new mongoose.Schema({
-    branchID: {
-        type: String,
-        required: true
-    },
-    subjectName: {
-        type: String,
-        required: true
-    },
-    venue: {
-        type: String,
-        required: true
-    },
-    time: {
-        type: String,
-        required: true
-    }
-});
+  group: { type: String, required: true },
+  semester: { type: String, required: true },
+  day: { type: String, required: true },
+  subjectName: { type: String, required: true },
+  venue: { type: String, required: true },
+  time: { type: String, required: true },
+}, { timestamps: true });
 
-const classSchedule = mongoose.model('ClassSchedule', classScheduleSchema, 'classschedules'); 
 
-module.exports = classSchedule;
+
+const getclassScheduleModel = async (group, semester) => {
+    const connection = await connectClassSchedules;
+    const collectionName = `${group}_${semester}_classSchedule`;
+    return connection.model(collectionName, classScheduleSchema);
+  };
+  
+  module.exports = getclassScheduleModel;
