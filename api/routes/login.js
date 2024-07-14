@@ -33,7 +33,8 @@ router.post('/', async (req, res) => {
     let isValidPassword = false;
     if (proff.password) {
       // Check against stored password
-      isValidPassword = await bcrypt.compare(password, proff.password);
+      // isValidPassword = await bcrypt.compare(password, proff.password);
+      isValidPassword = password === proff.password;
     } else {
       const firstName = proff.Name.split(' ')[0];
       const expectedPassword = firstName.toLowerCase();

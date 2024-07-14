@@ -33,7 +33,7 @@ export default function LoginScreen() {
     const token = await AsyncStorage.getItem('userToken');
     if (token) {
       try {
-        const response = await fetch('https://192.168.29.178:8000/login/verify-token', {
+        const response = await fetch('http://localhost:8000/login/verify-token', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -57,7 +57,7 @@ export default function LoginScreen() {
   const submit = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://192.168.29.178:8000/login', {
+      const response = await fetch('http://localhost:8000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export default function LoginScreen() {
         // Store the token
         await AsyncStorage.setItem('userToken', data.token);
         // Added: Store the regNo
-        await AsyncStorage.setItem('userEmail', Email.toString());
+        // await AsyncStorage.setItem('userEmail', Email.toString());
         // Navigate to home screen
         navigation.navigate('Home');
       } else {
