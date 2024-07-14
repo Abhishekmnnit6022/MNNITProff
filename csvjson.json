@@ -1,326 +1,407 @@
 [
   {
     "Name": "M.M.Gore",
-    "Email": "gore@mnnit.ac.in"
+    "Email": "gore@mnnit.ac.in",
+    "password": "M.M.Gore"
   },
   {
     "Name": "R.S.Yadav",
-    "Email": "rsy@mnnit.ac.in"
+    "Email": "rsy@mnnit.ac.in",
+    "password": "R.S.Yadav"
   },
   {
     "Name": "Neeraj Tyagi",
-    "Email": "neeraj@mnnit.ac.in"
+    "Email": "neeraj@mnnit.ac.in",
+    "password": "Neeraj"
   },
   {
     "Name": "Anil Kumar Singh",
-    "Email": "ak@mnnit.ac.in"
+    "Email": "ak@mnnit.ac.in",
+    "password": "Anil"
   },
   {
     "Name": "D.S. Kushwaha",
-    "Email": "dsk@mnnit.ac.in"
+    "Email": "dsk@mnnit.ac.in",
+    "password": "D.S."
   },
   {
     "Name": "D.K.Yadav",
-    "Email": "dky@mnnit.ac.in"
+    "Email": "dky@mnnit.ac.in",
+    "password": "D.K.Yadav"
   },
   {
     "Name": "Mayank Pandey",
-    "Email": "mayankpandey@mnnit.ac.in"
+    "Email": "mayankpandey@mnnit.ac.in",
+    "password": "Mayank"
   },
   {
     "Name": "Rajesh Tripathi",
-    "Email": "rajeshtcsed@mnnit.ac.in"
+    "Email": "rajeshtcsed@mnnit.ac.in",
+    "password": "Rajesh"
   },
   {
     "Name": "Manoj Wariya",
-    "Email": "wairya@mnnit.ac.in"
+    "Email": "wairya@mnnit.ac.in",
+    "password": "Manoj"
   },
   {
     "Name": "Anoj Kumar",
-    "Email": "anojk@mnnit.ac.in"
+    "Email": "anojk@mnnit.ac.in",
+    "password": "Anoj"
   },
   {
     "Name": "Ranvijay",
-    "Email": "ranvijay@mnnit.ac.in"
+    "Email": "ranvijay@mnnit.ac.in",
+    "password": "Ranvijay"
   },
   {
     "Name": "Shashank Srivastava",
-    "Email": "shashank12@mnnit.ac.in"
+    "Email": "shashank12@mnnit.ac.in",
+    "password": "Shashank"
   },
   {
     "Name": "Dushyant Kumar Singh",
-    "Email": "dushyant@mnnit.ac.in"
+    "Email": "dushyant@mnnit.ac.in",
+    "password": "Dushyant"
   },
   {
     "Name": "Dinesh Singh",
-    "Email": "dinesh_singh@mnnit.ac.in"
+    "Email": "dinesh_singh@mnnit.ac.in",
+    "password": "Dinesh"
   },
   {
     "Name": "Sarsij Tripathi",
-    "Email": "sarsij@mnnit.ac.in"
+    "Email": "sarsij@mnnit.ac.in",
+    "password": "Sarsij"
   },
   {
     "Name": "Divya Kumar",
-    "Email": "divyak@mnnit.ac.in"
+    "Email": "divyak@mnnit.ac.in",
+    "password": "Divya"
   },
   {
     "Name": "Shashwati Banerjea",
-    "Email": "shashwati@mnnit.ac.in"
+    "Email": "shashwati@mnnit.ac.in",
+    "password": "Shashwati"
   },
   {
     "Name": "Rupesh Kumar Dewang",
-    "Email": "rupeshdewang@mnnit.ac.in"
+    "Email": "rupeshdewang@mnnit.ac.in",
+    "password": "Rupesh"
   },
   {
     "Name": "Pragya Dwivedi",
-    "Email": "pragyadwi86@mnnit.ac.in"
+    "Email": "pragyadwi86@mnnit.ac.in",
+    "password": "Pragya"
   },
   {
     "Name": "Rajitha B",
-    "Email": "rajitha@mnnit.ac.in"
+    "Email": "rajitha@mnnit.ac.in",
+    "password": "Rajitha"
   },
   {
     "Name": "Shailendra Shukla",
-    "Email": "ss@mnnit.ac.in"
+    "Email": "ss@mnnit.ac.in",
+    "password": "Shailendra"
   },
   {
     "Name": "Deepak Gupta",
-    "Email": "deepakg@mnnit.ac.in"
+    "Email": "deepakg@mnnit.ac.in",
+    "password": "Deepak"
   },
   {
     "Name": "Vibhav Prakash Singh",
-    "Email": "vibhav@mnnit.ac.in"
+    "Email": "vibhav@mnnit.ac.in",
+    "password": "Vibhav"
   },
   {
     "Name": "Ashish Kumar Maurya",
-    "Email": "ashishmaurya@mnnit.ac.in"
+    "Email": "ashishmaurya@mnnit.ac.in",
+    "password": "Ashish"
   },
   {
     "Name": "J Sathish Kumar",
-    "Email": "sathish613@mnnit.ac.in"
+    "Email": "sathish613@mnnit.ac.in",
+    "password": "J"
   },
   {
     "Name": "Joohi Chauhan",
-    "Email": "joohi@mnnit.ac.in"
+    "Email": "joohi@mnnit.ac.in",
+    "password": "Joohi"
   },
   {
     "Name": "Indu Dohare",
-    "Email": "indudohare@mnnit.ac.in"
+    "Email": "indudohare@mnnit.ac.in",
+    "password": "Indu"
   },
   {
     "Name": "Kailash W. Kalare",
-    "Email": "kailashwk@mnnit.ac.in"
+    "Email": "kailashwk@mnnit.ac.in",
+    "password": "Kailash"
   },
   {
     "Name": "Abhimanyu Sahu",
-    "Email": "abhimanyus@mnnit.ac.in"
+    "Email": "abhimanyus@mnnit.ac.in",
+    "password": "Abhimanyu"
   },
   {
     "Name": "Amit Biswas",
-    "Email": "amitb@mnnit.ac.in"
+    "Email": "amitb@mnnit.ac.in",
+    "password": "Amit"
   },
   {
     "Name": "Abhinav Kumar",
-    "Email": "abhik@mnnit.ac.in"
+    "Email": "abhik@mnnit.ac.in",
+    "password": "Abhinav"
   },
   {
     "Name": "Saugata Roy",
-    "Email": "sgtroy@mnnit.ac.in"
+    "Email": "sgtroy@mnnit.ac.in",
+    "password": "Saugata"
   },
   {
     "Name": "Vishal Srivastava",
-    "Email": "vishalsri@mnnit.ac.in"
+    "Email": "vishalsri@mnnit.ac.in",
+    "password": "Vishal"
   },
   {
     "Name": "Anuja Dixit",
-    "Email": "anujadixit@mnnit.ac.in"
+    "Email": "anujadixit@mnnit.ac.in",
+    "password": "Anuja"
   },
   {
     "Name": "K. K. Shukla",
-    "Email": "kkshukla@mnnit.ac.in"
+    "Email": "kkshukla@mnnit.ac.in",
+    "password": "K."
   },
   {
     "Name": "Anuj Jain",
-    "Email": "anujjain@mnnit.ac.in"
+    "Email": "anujjain@mnnit.ac.in",
+    "password": "Anuj"
   },
   {
     "Name": "R. P. Tewari",
-    "Email": "rptewari@mnnit.ac.in"
+    "Email": "rptewari@mnnit.ac.in",
+    "password": "R."
   },
   {
     "Name": "S. J. Pawar",
-    "Email": "sjpawar@mnnit.ac.in"
+    "Email": "sjpawar@mnnit.ac.in",
+    "password": "S."
   },
   {
     "Name": "Ramesh Pandey",
-    "Email": "ramesh@mnnit.ac.in"
+    "Email": "ramesh@mnnit.ac.in",
+    "password": "Ramesh"
   },
   {
     "Name": "Abhishek Kumar",
-    "Email": "abhishek@mnnit.ac.in"
+    "Email": "abhishek@mnnit.ac.in",
+    "password": "Abhishek"
   },
   {
     "Name": "A. R. Paul",
-    "Email": "arpaul@mnnit.ac.in"
+    "Email": "arpaul@mnnit.ac.in",
+    "password": "A."
   },
   {
     "Name": "Ajaya Bharti",
-    "Email": "abharti@mnnit.ac.in"
+    "Email": "abharti@mnnit.ac.in",
+    "password": "Ajaya"
   },
   {
     "Name": "Ashutosh Kumar Upadhyay",
-    "Email": "ashutosh@mnnit.ac.in"
+    "Email": "ashutosh@mnnit.ac.in",
+    "password": "Ashutosh"
   },
   {
     "Name": "Anindya Bhar",
-    "Email": "anindyab@mnnit.ac.in"
+    "Email": "anindyab@mnnit.ac.in",
+    "password": "Anindya"
   },
   {
     "Name": "V. Murari",
-    "Email": "vmurari@mnnit.ac.in"
+    "Email": "vmurari@mnnit.ac.in",
+    "password": "V."
   },
   {
     "Name": "Vivek Kumar Patel",
-    "Email": "vivek@mnnit.ac.in"
+    "Email": "vivek@mnnit.ac.in",
+    "password": "Vivek"
   },
   {
     "Name": "Ashutosh Mishra",
-    "Email": "amishra@mnnit.ac.in"
+    "Email": "amishra@mnnit.ac.in",
+    "password": "Ashutosh"
   },
   {
     "Name": "R. Sujithra",
-    "Email": "r-sujithra@mnnit.ac.in"
+    "Email": "r-sujithra@mnnit.ac.in",
+    "password": "R."
   },
   {
     "Name": "Abhishek Kumar Tiwari",
-    "Email": "aktiwari@mnnit.ac.in"
+    "Email": "aktiwari@mnnit.ac.in",
+    "password": "Abhishek"
   },
   {
     "Name": "R. Tripathi",
-    "Email": "rt@mnnit.ac.in"
+    "Email": "rt@mnnit.ac.in",
+    "password": "R."
   },
   {
     "Name": "Haranath Kar",
-    "Email": "hnkar@mnnit.ac.in"
+    "Email": "hnkar@mnnit.ac.in",
+    "password": "Haranath"
   },
   {
     "Name": "V.K. Srivastava",
-    "Email": "vinay@mnnit.ac.in"
+    "Email": "vinay@mnnit.ac.in",
+    "password": "V.K."
   },
   {
     "Name": "(Smt.) V. Bhadauria",
-    "Email": "vijaya@mnnit.ac.in"
+    "Email": "vijaya@mnnit.ac.in",
+    "password": "(Smt.)"
   },
   {
     "Name": "Amit Dhawan",
-    "Email": "dhawan@mnnit.ac.in"
+    "Email": "dhawan@mnnit.ac.in",
+    "password": "Amit"
   },
   {
     "Name": "R.K. Nagaria",
-    "Email": "rkn@mnnit.ac.in"
+    "Email": "rkn@mnnit.ac.in",
+    "password": "R.K."
   },
   {
     "Name": "R.A. Mishra",
-    "Email": "ramishra@mnnit.ac.in"
+    "Email": "ramishra@mnnit.ac.in",
+    "password": "R.A."
   },
   {
     "Name": "V.S Tripathi",
-    "Email": "vst@mnnit.ac.in"
+    "Email": "vst@mnnit.ac.in",
+    "password": "V.S"
   },
   {
     "Name": "Basant Kumar",
-    "Email": "singhbasant@mnnit.ac.in"
+    "Email": "singhbasant@mnnit.ac.in",
+    "password": "Basant"
   },
   {
     "Name": "Yogendra Kumar Prajapati",
-    "Email": "yogendrapra@mnnit.ac.in"
+    "Email": "yogendrapra@mnnit.ac.in",
+    "password": "Yogendra"
   },
   {
     "Name": "V. Krishna Rao Kandanvli",
-    "Email": "rao@mnnit.ac.in"
+    "Email": "rao@mnnit.ac.in",
+    "password": "V."
   },
   {
     "Name": "Arvind Kumar",
-    "Email": "arvindk@mnnit.ac.in"
+    "Email": "arvindk@mnnit.ac.in",
+    "password": "Arvind"
   },
   {
     "Name": "Sanjeev Rai",
-    "Email": "srai@mnnit.ac.in"
+    "Email": "srai@mnnit.ac.in",
+    "password": "Sanjeev"
   },
   {
     "Name": "Manish Tiwari",
-    "Email": "mtiwari@mnnit.ac.in"
+    "Email": "mtiwari@mnnit.ac.in",
+    "password": "Manish"
   },
   {
     "Name": "Arun Prakash",
-    "Email": "arun@mnnit.ac.in"
+    "Email": "arun@mnnit.ac.in",
+    "password": "Arun"
   },
   {
     "Name": "Santosh Kumar Gupta",
-    "Email": "skg@mnnit.ac.in"
+    "Email": "skg@mnnit.ac.in",
+    "password": "Santosh"
   },
   {
     "Name": "Asim Mukherjee",
-    "Email": "asimmkj@mnnit.ac.in"
+    "Email": "asimmkj@mnnit.ac.in",
+    "password": "Asim"
   },
   {
     "Name": "Rajeev Gupta",
-    "Email": "rajeevg@mnnit.ac.in"
+    "Email": "rajeevg@mnnit.ac.in",
+    "password": "Rajeev"
   },
   {
     "Name": "Shweta Tripathi",
-    "Email": "shtri@mnnit.ac.in"
+    "Email": "shtri@mnnit.ac.in",
+    "password": "Shweta"
   },
   {
     "Name": "Vinay Kumar",
-    "Email": "vinay.k@mnnit.ac.in"
+    "Email": "vinay.k@mnnit.ac.in",
+    "password": "Vinay"
   },
   {
     "Name": "P. Karuppanan",
-    "Email": "pkaru@mnnit.ac.in"
+    "Email": "pkaru@mnnit.ac.in",
+    "password": "P."
   },
   {
     "Name": "Anand Sharma",
-    "Email": "anandsharma@mnnit.ac.in"
+    "Email": "anandsharma@mnnit.ac.in",
+    "password": "Anand"
   },
   {
     "Name": "Sumit Kumar Jha",
-    "Email": "sumit-k@mnnit.ac.in"
+    "Email": "sumit-k@mnnit.ac.in",
+    "password": "Sumit"
   },
   {
     "Name": "Smriti Agarwal",
-    "Email": "smritiagarwal@mnnit.ac.in"
+    "Email": "smritiagarwal@mnnit.ac.in",
+    "password": "Smriti"
   },
   {
     "Name": "Satish Chandra",
-    "Email": "satishchandra@mnnit.ac.in"
+    "Email": "satishchandra@mnnit.ac.in",
+    "password": "Satish"
   },
   {
     "Name": "VIMAL KUMAR SINGH YADAV",
-    "Email": "vksyadav@mnnit.ac.in"
+    "Email": "vksyadav@mnnit.ac.in",
+    "password": "VIMAL"
   },
   {
     "Name": "DEEPAK PUNETHA",
-    "Email": "deepakpunetha@mnnit.ac.in"
+    "Email": "deepakpunetha@mnnit.ac.in",
+    "password": "DEEPAK"
   },
   {
     "Name": "DHARMENDRA DIXIT",
-    "Email": "dharmendradixit@mnnit.ac.in"
+    "Email": "dharmendradixit@mnnit.ac.in",
+    "password": "DHARMENDRA"
   },
   {
     "Name": "ARUN KUMAR SAURABH",
-    "Email": "aksaurabh@mnnit.ac.in"
+    "Email": "aksaurabh@mnnit.ac.in",
+    "password": "ARUN"
   },
   {
     "Name": "KUMARI NIBHA PRIYADARSHANI",
-    "Email": "knpriya@mnnit.ac.in"
+    "Email": "knpriya@mnnit.ac.in",
+    "password": "KUMARI"
   },
   {
     "Name": "SANDEEP KUMAR SINGH",
-    "Email": "sksingh@mnnit.ac.in"
+    "Email": "sksingh@mnnit.ac.in",
+    "password": "SANDEEP"
   },
   {
     "Name": "Nirmal Ch Roy",
-    "Email": "nirmalroy@mnnit.ac.in"
+    "Email": "nirmalroy@mnnit.ac.in",
+    "password": "Nirmal"
   }
 ]
