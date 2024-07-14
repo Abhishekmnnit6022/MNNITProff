@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 const image = require("../assets/images/collegelogo.png");
 
@@ -31,6 +32,7 @@ export default function LoginScreen() {
   // Added function to check login status
   const checkLoginStatus = async () => {
     const token = await AsyncStorage.getItem('userToken');
+    console.log("userToken", token);
     if (token) {
       try {
         const response = await fetch('http://localhost:8000/login/verify-token', {
@@ -41,7 +43,8 @@ export default function LoginScreen() {
         });
 
         if (response.ok) {
-          const data = await response.json();
+          navigation.navigate("Home");
+
           // User is logged in, navigate to home screen
           
         } else {
@@ -66,6 +69,7 @@ export default function LoginScreen() {
       });
 
       const data = await response.json();
+      console.log("Data from response", data)
 
       if (response.ok) {
         // Store the token
@@ -124,7 +128,7 @@ export default function LoginScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate("Forget Password")}
+          onPress={() => navigation.navigate("Forgot Password")}
         >
           <Text style={styles.subTitle2}>Forget Password?</Text>
         </TouchableOpacity>

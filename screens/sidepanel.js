@@ -1,7 +1,22 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const SidePanelContent = ({ navigation }) => {
+
+
+
+  const logout = async () => {
+    try {
+      await AsyncStorage.removeItem('userToken');
+      console.log("okay everything okay")
+      navigation.navigate("Login");
+
+      // router.replace("/");
+    } catch (error) {
+      console.error('Logout error:', error);
+      Alert.alert('Error', 'An error occurred during logout');
+    }
+  };
   return (
     <View className="justify-between" style={styles.container}>
       <Image
@@ -22,7 +37,7 @@ const SidePanelContent = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={logout}>
         <View className="rounded-3xl bg-[#4643cd] m-3 p-3 items-center">
           <Text className="text-white font-pregular text-xl">
             Logout
