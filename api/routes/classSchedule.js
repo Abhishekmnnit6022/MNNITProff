@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const getclassSchedule = require("./models/classSchedule");
+const getclassSchedule = require("../models/classSchedule");
 
 
  router.get("/:group/:semester/:day", async (req, res) => {

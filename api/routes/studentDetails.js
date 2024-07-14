@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const getStudentModel = require("./models/student");
+const getStudentModel = require("../models/student");
 router.get("/:group/:semester",  async (req, res) => {
     try {
       const { group, semester } = req.params;

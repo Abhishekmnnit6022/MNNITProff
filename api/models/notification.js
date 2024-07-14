@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const {connectNotifications} = require("../dbConfig");
 const notificationSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -9,7 +9,7 @@ const notificationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
+    Date: {
         type: String,
         required: true
     },
@@ -19,9 +19,10 @@ const notificationSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-const getNotificationModel = (department, semester) => {
+const getNotificationModel = async (department, semester) => {
+    const connection = await connectNotifications;
     const collectionName = `${department}_${semester}_Notifications`;
-    return mongoose.model(collectionName, notificationSchema);
+    return connection.model(collectionName, notificationSchema);
 };
 
 module.exports = getNotificationModel;

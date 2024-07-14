@@ -10,7 +10,7 @@ const NotificationPage = () => {
   const [selectedSemester, setSelectedSemester] = useState('');
 
   const departments = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2","E1", "E2", "F1", "F2", "G1", "G2", "H1", "H2", "I1", "J1", "K1", "L1", "M1", "N1", "N2", "O1"];
-  const semesters = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'];
+  const semesters = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
   const sendNotification = async () => {
     if (!title || !message || !selectedDepartment || !selectedSemester) {
@@ -22,14 +22,15 @@ const NotificationPage = () => {
     const notificationData = {
       title,
       message,
-      date: currentDate.toLocaleDateString(),
+      Date: currentDate.toLocaleDateString(),
       time: currentDate.toLocaleTimeString([], { hour: 'numeric', minute: 'numeric', hour12: true }),
       department: selectedDepartment,
       semester: selectedSemester
     };
+    console.log('Notification data:', notificationData);
 
     try {
-      const response = await axios.post(`https://emnnitproffserver.onrender.com/pushNotification`, notificationData);
+      const response = await axios.post(`http://localhost:8000/pushNotification`, notificationData);
       alert('Notification sent successfully');
       setTitle('');
       setMessage('');
