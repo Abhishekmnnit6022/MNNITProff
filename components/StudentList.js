@@ -145,7 +145,7 @@ const StudentList = ({ data, group, semester }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: os == "android" ? 70 : 0,
+    marginTop: os == "android" ? 90 : 0,
   },
   row: {
     flexDirection: "row",

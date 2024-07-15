@@ -17,6 +17,7 @@ import { SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
 import Classselect from "./screens/classselect";
 import Schedule from "./screens/Schedule";
+import ResetPasswordScreen from "./screens/ResetPasswordsceen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -57,7 +58,7 @@ function MainStackNavigator() {
         options={{
           headerShadowVisible: false,
           headerTransparent: true,
-          headerTitle: "",
+          headerTitle: "Attendance",
         }}
       />
       <Stack.Screen
@@ -69,7 +70,8 @@ function MainStackNavigator() {
       />
       <Stack.Screen name ="Profile" component={Profile} />
       <Stack.Screen name="Schedule" component={Schedule} />
-      <Stack.Screen name="Forget Password" component={ForgetScreen} />
+      <Stack.Screen name="Forget Password" component={ForgetScreen}  options={{headerTitle:"Forget Password" ,headerTransparent:true}}/>
+      <Stack.Screen name ="Reset Password"  component={ResetPasswordScreen} options={{headerTitle:"Reset Password" ,headerTransparent:true}}/>
       <Stack.Screen
         name="Select Class"
         component={Classselect}

@@ -103,7 +103,7 @@ const SidePanel = () => {
         <View style={styles.bottomContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Forget Password")}
+            onPress={() => navigation.navigate("Reset Password")}
           >
             <Ionicons name="key-outline" size={20} color="#ffffff" />
             <Text style={styles.buttonText}>Reset Password</Text>
