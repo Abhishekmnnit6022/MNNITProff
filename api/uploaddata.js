@@ -12,8 +12,7 @@ const uploadProffDetails = async () => {
             throw new Error("Proff model is not initialized");
         }
 
-        // Assuming ProffModel has a method like updateMany or updateOne to update existing documents
-        // Here we assume your proffData is an array of documents with "Name", "Email", and "password" fields
+
 
         // Example: Updating based on unique "Email" field assuming it's unique
         for (const proff of proffData) {
@@ -26,7 +25,7 @@ const uploadProffDetails = async () => {
         console.error("Error in uploading Proffs details:", error);
 
     } finally {
-        process.exit(0); // Exit the script when done
+        process.exit(0); 
     }
 };
 

@@ -2,40 +2,48 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const ClassCard = ({ subjectName, venue, time }) => {
+  const isCancelled = time.toLowerCase() === 'cancelled';
+
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, isCancelled && styles.cancelledCard]}>
       <Text style={styles.subjectName}>{subjectName}</Text>
       <Text style={styles.venue}>{venue}</Text>
-      <Text style={styles.time}>{time}</Text>
+      <Text style={[styles.time, isCancelled && styles.cancelledTime]}>{time}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    
-    padding: 10,
-    margin: 13,
-    backgroundColor: '#f9f9f9',
+    padding: 16,
+    margin: 8,
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  cancelledCard: {
+    backgroundColor: '#FFEBEE',
+    borderColor: '#FFCDD2',
   },
   subjectName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#212121',
+    marginBottom: 8,
   },
   venue: {
-    fontSize: 17,
-    color: '#666',
+    fontSize: 16,
+    color: '#757575',
+    marginBottom: 8,
   },
   time: {
-    fontSize: 15,
-    color: '#aaa',
-    fontWeight:'500'
+    fontSize: 16,
+    color: '#4CAF50',
+    fontWeight: '500',
+  },
+  cancelledTime: {
+    color: '#F44336',
   },
 });
 

@@ -30,7 +30,7 @@ const NotificationPage = () => {
     console.log('Notification data:', notificationData);
 
     try {
-      const response = await axios.post(`http://localhost:8000/pushNotification`, notificationData);
+      const response = await axios.post(`http://192.168.29.178:8000/pushNotification`, notificationData);
       alert('Notification sent successfully');
       setTitle('');
       setMessage('');

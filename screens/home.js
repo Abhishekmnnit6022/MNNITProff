@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
-  Pressable,
   Platform,
   Alert,
 } from "react-native";
@@ -15,26 +14,26 @@ import { useNavigation, DrawerActions } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import axios from "axios";
 import ClassCard from "../components/ClassCard";
-import 'react-native-get-random-values';
+import { Ionicons } from '@expo/vector-icons';
 
-
-export default function HomeScreen(){
+export default function HomeScreen() {
   const navigation = useNavigation();
   const [classSchedule, setClassSchedule] = useState([]);
   const [error, setError] = useState(null);
- 
+
   useEffect(() => {
     const fetchClassSchedule = async () => {
       try {
-        //chnage the port number
-        const response = await axios.get(`https://emnnitproffserver.onrender.com/classSchedules/A1/3/Friday`);
+        const response = await axios.get(
+          `https://emnnitproffserver.onrender.com/classSchedules/A1/3/Friday`
+        );
         setClassSchedule(response.data);
       } catch (error) {
-        console.error('Error fetching class schedule:', error);
-        setError('Failed to fetch class schedule');
+        console.error("Error fetching class schedule:", error);
+        setError("Failed to fetch class schedule");
       }
     };
-  
+
     fetchClassSchedule();
   }, []);
 
@@ -47,11 +46,11 @@ export default function HomeScreen(){
       <ScrollView>
         <View style={styles.header}>
           <TouchableOpacity onPress={openDrawer}>
-            <Icon name="bars" size={24} color="black" />
+            <Ionicons name="menu" size={24} color="#003366" />
           </TouchableOpacity>
-          <Text style={styles.headerText}>Today's Classes</Text>
+          <Text style={styles.sectionTitle}>Today's Classes</Text>
           <TouchableOpacity onPress={() => Alert.alert("Working on this")}>
-            <Icon name="bell" size={24} color="grey" />
+            <Ionicons name="notifications" size={24} color="#003366" />
           </TouchableOpacity>
         </View>
 
@@ -71,86 +70,52 @@ export default function HomeScreen(){
               keyExtractor={(item, index) => index.toString()}
               horizontal
             />
-        </View>
-      )}
+          </View>
+        )}
 
-        <View className="flex-col p-3">
+        <View style={styles.optionsContainer}>
           <TouchableOpacity
-            style={{
-              shadowColor: "#111111",
-              shadowOffset: { height: "5px", width: "0px" },
-              shadowRadius: 3.14,
-              shadowOpacity: 0.5,
-              elevation: 3,
-              zIndex: 4,
-          
-              
-            }}
+            style={styles.optionButton}
             onPress={() => navigation.navigate("Select Class")}
-            className="w-full h-[15vh] mb-3 bg-[#4643cd] rounded-3xl justify-center items-center"
           >
-            <View className="flex-row items-center">
-              <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <View style={styles.optionContent}>
+              <View style={styles.optionIconContainer}>
                 <Icon name="pencil" size={16} color="#ffffff" />
               </View>
-              <Text className="text-white font-plight text-xl">Attendance</Text>
+              <Text style={styles.optionText}>Attendance</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              shadowColor: "#111111",
-              shadowOffset: { height: "5px", width: "0px" },
-              shadowRadius: 3.14,
-              shadowOpacity: 0.5,
-              elevation: 3,
-              zIndex: 4,
-            }}
+            style={styles.optionButton}
             onPress={() => alert("Record Clicked")}
-            className="w-full h-[15vh]  bg-[#4643cd] mb-3 rounded-3xl justify-center items-center"
           >
-            <View className="flex-row items-center">
-              <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <View style={styles.optionContent}>
+              <View style={styles.optionIconContainer}>
                 <Icon name="list-ol" size={16} color="#ffffff" />
               </View>
-              <Text className="text-white font-plight text-xl">Records</Text>
+              <Text style={styles.optionText}>Records</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              shadowColor: "#111111",
-              shadowOffset: { height: "5px", width: "0px" },
-              shadowRadius: 3.14,
-              shadowOpacity: 0.5,
-              elevation: 3,
-              zIndex: 4,
-            }}
+            style={styles.optionButton}
             onPress={() => alert("Working on it sir!")}
-            className="w-full h-[15vh] mb-3 bg-[#4643cd] rounded-3xl justify-center items-center"
           >
-            <View className="flex-row items-center">
-              <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <View style={styles.optionContent}>
+              <View style={styles.optionIconContainer}>
                 <Icon name="paperclip" size={16} color="#ffffff" />
               </View>
-              <Text className="text-white font-plight text-xl">My Schedule</Text>
+              <Text style={styles.optionText}>My Schedule</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              shadowColor: "#111111",
-              shadowOffset: { height: "5px", width: "0px" },
-              shadowRadius: 3.14,
-              shadowOpacity: 0.5,
-              elevation: 3,
-              zIndex: 4,
-            }}
+            style={styles.optionButton}
             onPress={() => navigation.navigate("Notification Page")}
-            className="w-full h-[15vh] mb-3  bg-[#4643cd] rounded-3xl justify-center items-center"
           >
-            <View className="flex-row items-center">
-              <View className="rounded-full h-10 w-10 items-center justify-center bg-[#5756cd] mr-3">
+            <View style={styles.optionContent}>
+              <View style={styles.optionIconContainer}>
                 <Icon name="bell-o" size={16} color="#ffffff" />
               </View>
-              <Text className="text-white font-plight text-xl">Make Notification</Text>
+              <Text style={styles.optionText}>Make Notification</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -167,9 +132,11 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
     alignItems: "center",
+    padding: 12,
+    backgroundColor: "#ffffff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
   },
   headerText: {
     fontSize: 24,
@@ -179,5 +146,49 @@ const styles = StyleSheet.create({
   classListContainer: {
     paddingHorizontal: 12,
     paddingBottom: 8,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#003366",
+    marginBottom: 10,
+  },
+  optionsContainer: {
+    flexDirection: 'column',
+    padding: 12,
+  },
+  optionButton: {
+    backgroundColor: "#4643cd",
+    borderRadius: 20,
+    marginBottom: 12,
+    shadowColor: "#111111",
+    shadowOffset: { height: 5, width: 0 },
+    shadowRadius: 3.14,
+    shadowOpacity: 0.5,
+    elevation: 3,
+    zIndex: 4,
+    height: 120, 
+    justifyContent: 'center',
+  },
+  optionContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 16,
+    marginLeft: 20, 
+  },
+  optionIconContainer: {
+    backgroundColor: "#5756cd",
+    borderRadius: 20,
+    height: 50, 
+    width: 50, 
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 20,
+  },
+  optionText: {
+    color: "#ffffff",
+    fontSize: 22, 
+    fontWeight: "500",
   },
 });

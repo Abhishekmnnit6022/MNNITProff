@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,16 +10,20 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  SafeAreaView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-
-const image = require("../assets/images/collegelogo.png");
+import { Ionicons } from "@expo/vector-icons";
+import FormField from "../components/FormField";
+import CustomButton from "../components/CustomButton";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigation = useNavigation();
 
   // Added useEffect to check login status on component mount
@@ -27,29 +31,30 @@ export default function LoginScreen() {
     checkLoginStatus();
   }, []);
 
-  
   // Added function to check login status
   const checkLoginStatus = async () => {
-    const token = await AsyncStorage.getItem('userToken');
+    const token = await AsyncStorage.getItem("userToken");
     if (token) {
       try {
-        const response = await fetch('http://localhost:8000/login/verify-token', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "http://192.168.29.178:8000/login/verify-token",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
           // User is logged in, navigate to home screen
-          
         } else {
           // Token is invalid, clear it
-          await AsyncStorage.removeItem('userToken');
+          await AsyncStorage.removeItem("userToken");
         }
       } catch (error) {
-        console.error('Token verification error:', error);
+        console.error("Token verification error:", error);
       }
     }
   };
@@ -57,157 +62,150 @@ export default function LoginScreen() {
   const submit = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/login', {
-        method: 'POST',
+      const response = await fetch("http://192.168.29.178:8000/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({email,password}),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         // Store the token
-        await AsyncStorage.setItem('userToken', data.token);
+        await AsyncStorage.setItem("userToken", data.token);
         // Added: Store the regNo
         // await AsyncStorage.setItem('userEmail', Email.toString());
         // Navigate to home screen
-        navigation.navigate('Home');
+        navigation.navigate("Home");
       } else {
-        Alert.alert('Login Failed', data.message);
+        Alert.alert("Login Failed", data.message);
       }
     } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('Error', 'An error occurred during login');
+      console.error("Login error:", error);
+      Alert.alert("Error", "An error occurred during login");
     } finally {
       setIsLoading(false);
     }
   };
-   
+
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <ScrollView
-        contentContainerStyle={styles.innerContainer}
-        keyboardShouldPersistTaps="handled"
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
       >
-        <Image source={image} style={styles.logo} />
-        <Text style={styles.title}>
-          Motilal Nehru National Institute of Technology
-        </Text>
-        <Text style={styles.subTitle}>Allahabad</Text>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("../assets/images/collegelogo.png")}
+              resizeMode="contain"
+              style={styles.logo}
+            />
+          </View>
+          <View style={styles.instituteName}>
+            <Text style={styles.instituteNameText}>
+              MOTILAL NEHRU NATIONAL INSTITUTE OF TECHNOLOGY
+            </Text>
+            <Text style={styles.instituteLocation}>ALLAHABAD</Text>
+          </View>
 
-        <View style={styles.box}>
-          <Text style={styles.fieldLabel}>Official Email</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="email@mnnit.ac.in"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+          <View style={styles.formContainer}>
+            <FormField
+              title="Official Email"
+              value={email}
+              handleChangeText={(text) => setEmail(text)}
+              keyboardType="email-address"
+            />
 
-          <Text style={styles.fieldLabel}>Password</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Enter your password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
-          />
-        </View>
+            <FormField
+              title="Password"
+              value={password}
+              handleChangeText={(text) => setPassword(text)}
+              secureTextEntry={!showPassword}
+              rightIcon={
+                <Ionicons
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="#003366"
+                />
+              }
+              onIconPress={() => setShowPassword(!showPassword)}
+            />
 
-        <TouchableOpacity style={styles.loginButton} onPress={submit} 
-            isloading={isLoading}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+            <CustomButton
+              title="Log In"
+              handlePress={submit}
+              isLoading={isLoading}
+            />
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Forget Password")}
-        >
-          <Text style={styles.subTitle2}>Forget Password?</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <TouchableOpacity
+              onPress={()=>navigation.navigate("Forget Password")}>
+                <Text style={styles.forgotPassword}> Forgot
+              Password?</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 0,
+    backgroundColor: "#f0f4f8",
   },
-  innerContainer: {
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+  scrollContent: {
     flexGrow: 1,
     justifyContent: "center",
+    padding: 20,
+  },
+  logoContainer: {
     alignItems: "center",
+    marginBottom: 20,
   },
   logo: {
-    height: 100,
-    width: 100,
-    resizeMode: "contain",
-    marginTop: 50,
+    width: 120,
+    height: 120,
   },
-  title: {
-    fontSize: 20,
-    color: "#290E47",
+  instituteName: {
+    alignItems: "center",
+    marginBottom: 40,
+  },
+  instituteNameText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#003366",
+    textAlign: "center",
+    marginBottom: 5,
+  },
+  instituteLocation: {
+    fontSize: 16,
+    color: "#003366",
+    fontWeight: "600",
+  },
+  formContainer: {
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
     padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  forgotPassword: {
     textAlign: "center",
-  },
-  subTitle: {
-    fontSize: 16,
-    color: "#290E47",
-    marginBottom: 20,
-    textAlign: "center",
-    marginTop: 1,
-  },
-  subTitle2: {
-    fontSize: 16,
-    color: "#290E47",
-    marginBottom: 20,
-    textAlign: "center",
-    marginVertical: 15,
-  },
-  fieldLabel: {
-    fontSize: 15,
-    marginBottom: 10,
-    alignSelf: "flex-start",
-    marginLeft: 8,
-  },
-  textInput: {
-    borderColor: "#18089E",
-    width: "100%",
-    maxWidth: 350,
-    height: 50,
-    borderWidth: 1.3,
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 20,
-  },
-  loginButton: {
-    backgroundColor: "#E1963F",
-    width: 200,
-    height: 50,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 30,
-  },
-  testButton: {
-    backgroundColor: "#4643cd",
-    width: 200,
-    height: 50,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 30,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 20,
-  },
-  box: {
-    width: "100%",
-    maxWidth: 350,
+    marginTop: 20,
+    color: "#003366",
+    fontSize: 14,
   },
 });

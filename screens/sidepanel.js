@@ -1,69 +1,208 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-const SidePanelContent = ({ navigation }) => {
+const SidePanel = () => {
+  const [activeMenu, setActiveMenu] = useState("Home");
+  const [isOnSidePanel, setIsOnSidePanel] = useState(true);
+  const navigation = useNavigation();
+
+  const menuItems = [
+    { icon: "home-outline", label: "Home", screen: "Home" },
+    { icon: "calendar-outline", label: "Schedule", screen: "Schedule" },
+    { icon: "person-outline", label: "Profile", screen: "Profile" },
+  ];
+
+  const handleMenuPress = (label, screen) => {
+    setActiveMenu(label);
+    setIsOnSidePanel(false);
+    navigation.navigate(screen);
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsOnSidePanel(true);
+      setActiveMenu("Home");
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  const logout = async () => {
+    try {
+      await AsyncStorage.multiRemove(["userToken", "userRegNo"]);
+      navigation.navigate("Login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      Alert.alert("Error", "An error occurred during logout");
+    }
+  };
+
   return (
-    <View className="justify-between" style={styles.container}>
-      <Image
-        source={require("./../assets/images/collegelogo.png")}
-        style={{
-          width: 100,
-          height: 200,
-          objectFit: "contain",
-          marginTop: 50,
-        }}
-      />
-      <View className="mb-7 items-center justify-center">
-      <TouchableOpacity>
-        <View className="rounded-3xl bg-[#4643cd] m-3 p-3 items-center">
-          <Text className="text-white font-pregular text-xl">
-            Forgot Password
-          </Text>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image
+            source={require("./../assets/icons/logo.png")}
+            style={styles.logo}
+          />
+          <Text style={styles.instituteName}>MNNIT Allahabad</Text>
         </View>
-      </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <View className="rounded-3xl bg-[#4643cd] m-3 p-3 items-center">
-          <Text className="text-white font-pregular text-xl">
-            Logout
+        <View style={styles.menuContainer}>
+          {menuItems.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.menuItem,
+                (isOnSidePanel && item.label === "Home") ||
+                (!isOnSidePanel && activeMenu === item.label)
+                  ? styles.activeMenuItem
+                  : null,
+              ]}
+              onPress={() => handleMenuPress(item.label, item.screen)}
+            >
+              <Ionicons
+                name={item.icon}
+                size={24}
+                color={
+                  (isOnSidePanel && item.label === "Home") ||
+                  (!isOnSidePanel && activeMenu === item.label)
+                    ? "#ffffff"
+                    : "#003366"
+                }
+              />
+              <Text
+                style={[
+                  styles.menuItemText,
+                  (isOnSidePanel && item.label === "Home") ||
+                  (!isOnSidePanel && activeMenu === item.label)
+                    ? styles.activeMenuItemText
+                    : null,
+                ]}
+              >
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("ForgetPassword")}
+          >
+            <Ionicons name="key-outline" size={20} color="#ffffff" />
+            <Text style={styles.buttonText}>Reset Password</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.logoutButton]}
+            onPress={logout}
+          >
+            <Ionicons name="log-out-outline" size={20} color="#ffffff" />
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.footer}>
+            © 2024 MNNIT Allahabad. All rights reserved.
           </Text>
         </View>
-      </TouchableOpacity>
-     
-      <Text style={{ marginTop: 40, color: "black" }}>
-        All rights reserved @MNNIT
-      </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  gradient: {
+  safeArea: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#f0f0f0",
   },
   container: {
     flex: 1,
-    alignItems: "center",
+    paddingVertical: 20,
+    paddingHorizontal: Platform.OS === "ios" ? 20 : 16,
   },
-  logout: {
+  header: {
+    alignItems: "center",
+    marginBottom: 30,
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    resizeMode: "contain",
+    marginTop: 30,
+  },
+  instituteName: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#003366",
+    marginTop: 10,
+    textAlign: "center",
+  },
+  menuContainer: {
+    flex: 1,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  activeMenuItem: {
+    backgroundColor: "#003366",
+  },
+  menuItemText: {
+    marginLeft: 15,
+    fontSize: 16,
+    color: "#003366",
+    fontWeight: "500",
+  },
+  activeMenuItemText: {
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  bottomContainer: {
+    marginTop: "auto",
+  },
+  button: {
+    backgroundColor: "#003366",
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: 200,
-    backgroundColor: "#4643cd",
-    padding: 15,
-    borderRadius: 50,
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 12,
   },
-  help: {
+  logoutButton: {
+    backgroundColor: "#8b0000",
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "600",
+    marginLeft: 10,
+  },
+  footer: {
+    color: "#666666",
+    fontSize: 12,
+    textAlign: "center",
     marginTop: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    width: 200,
-    backgroundColor: "#4643cd",
-    padding: 15,
-    borderRadius: 50,
   },
 });
-export default SidePanelContent;
+
+export default SidePanel;

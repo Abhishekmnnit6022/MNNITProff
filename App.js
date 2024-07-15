@@ -9,12 +9,14 @@ import AttendancePage from "./screens/attendancePage";
 import NotificationPage from "./screens/notificationPage";
 import ForgetScreen from "./screens/Forget";
 import SidePanelContent from "./screens/sidepanel";
+import Profile from "./screens/Profile";
 SplashScreen.preventAutoHideAsync();
 import { useEffect } from "react";
 import { SplashScreen } from "expo-router";
 
 import { useFonts } from "expo-font";
 import Classselect from "./screens/classselect";
+import Schedule from "./screens/Schedule";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -65,6 +67,8 @@ function MainStackNavigator() {
           ,headerTitle: "",headerTransparent: true,headerTintColor: "white"
          }}
       />
+      <Stack.Screen name ="Profile" component={Profile} />
+      <Stack.Screen name="Schedule" component={Schedule} />
       <Stack.Screen name="Forget Password" component={ForgetScreen} />
       <Stack.Screen
         name="Select Class"
