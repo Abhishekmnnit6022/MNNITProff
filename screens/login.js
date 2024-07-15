@@ -47,7 +47,8 @@ export default function LoginScreen() {
         );
 
         if (response.ok) {
-          const data = await response.json();
+          navigation.navigate("Home");
+
           // User is logged in, navigate to home screen
         } else {
           // Token is invalid, clear it
@@ -71,6 +72,7 @@ export default function LoginScreen() {
       });
 
       const data = await response.json();
+      console.log("Data from response", data)
 
       if (response.ok) {
         // Store the token

@@ -30,15 +30,16 @@ router.post('/', async (req, res) => {
       return res.status(404).json({ message: "Professor not found" });
     }
 
-    let isValidPassword = false;
+    let isValidPassword;
     if (proff.password) {
       // Check against stored password
-      // isValidPassword = await bcrypt.compare(password, proff.password);
-      isValidPassword = password === proff.password;
+      isValidPassword = await bcrypt.compare(password, proff.password);
+      // isValidPassword = password === proff.password;
     } else {
       const firstName = proff.Name.split(' ')[0];
       const expectedPassword = firstName.toLowerCase();
       isValidPassword = (password === expectedPassword);
+      console.log("Expected password", expectedPassword);
     }
 
     if (!isValidPassword) {
@@ -46,13 +47,13 @@ router.post('/', async (req, res) => {
     }
 
     // If credentials are valid, create a JWT token
-    const token = jwt.sign({ email: proff.Email }, 'Mnnit_proffs', { expiresIn: '1h' });
+    const token = jwt.sign({ email: proff.Email }, 'Team_Auxin_was_here', { expiresIn: '1h' });
 
     // Send the token and some user info back to the client
     res.json({
       token,
       user: {
-        email: proff.Email,
+        Email: proff.Email,
         Name: proff.Name
       }
     });

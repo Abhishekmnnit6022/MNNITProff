@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -8,7 +9,7 @@ import {
   Alert,
   SafeAreaView,
   Platform,
-  StatusBar,
+  StatusBar
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,10 +26,10 @@ const SidePanel = () => {
     { icon: "person-outline", label: "Profile", screen: "Profile" },
   ];
 
-  const handleMenuPress = (label, screen) => {
-    setActiveMenu(label);
-    setIsOnSidePanel(false);
+  const handleMenuPress = (screen) => {
     navigation.navigate(screen);
+    setActiveMenu(screen);
+    setIsOnSidePanel(false);
   };
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const SidePanel = () => {
                   ? styles.activeMenuItem
                   : null,
               ]}
-              onPress={() => handleMenuPress(item.label, item.screen)}
+              onPress={() => handleMenuPress(item.screen)}
             >
               <Ionicons
                 name={item.icon}
@@ -102,7 +103,7 @@ const SidePanel = () => {
         <View style={styles.bottomContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("ForgetPassword")}
+            onPress={() => navigation.navigate("Forget Password")}
           >
             <Ionicons name="key-outline" size={20} color="#ffffff" />
             <Text style={styles.buttonText}>Reset Password</Text>
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: "#f0f0f0",
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
