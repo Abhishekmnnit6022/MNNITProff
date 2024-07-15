@@ -65,10 +65,10 @@ function MainStackNavigator() {
         name="Notification Page"
         component={NotificationPage}
         options={{ headerShadowVisible: false, headerBlurEffect: true
-          ,headerTitle: "",headerTransparent: true,headerTintColor: "white"
+          ,headerTitle: "",headerTransparent: true
          }}
       />
-      <Stack.Screen name ="Profile" component={Profile} />
+      <Stack.Screen name ="Profile" component={Profile} options={{headerTitle:"" ,headerTransparent:true}} />
       <Stack.Screen name="Schedule" component={Schedule} />
       <Stack.Screen name="Forget Password" component={ForgetScreen}  options={{headerTitle:"Forget Password" ,headerTransparent:true}}/>
       <Stack.Screen name ="Reset Password"  component={ResetPasswordScreen} options={{headerTitle:"Reset Password" ,headerTransparent:true}}/>

@@ -9,12 +9,12 @@ import {
   FlatList,
   Platform,
   Alert,
+  StatusBar,
 } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import { Ionicons } from '@expo/vector-icons';
 import axios from "axios";
 import ClassCard from "../components/ClassCard";
-import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -41,83 +41,52 @@ export default function HomeScreen() {
     navigation.dispatch(DrawerActions.openDrawer());
   };
 
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={openDrawer}>
-            <Ionicons name="menu" size={24} color="#003366" />
-          </TouchableOpacity>
-          <Text style={styles.sectionTitle}>Today's Classes</Text>
-          <TouchableOpacity onPress={() => Alert.alert("Working on this")}>
-            <Ionicons name="notifications" size={24} color="#003366" />
-          </TouchableOpacity>
-        </View>
+  const renderOptionButton = (icon, text, onPress) => (
+    <TouchableOpacity style={styles.optionButton} onPress={onPress}>
+      <Ionicons name={icon} size={24} color="#FFFFFF" style={styles.optionIcon} />
+      <Text style={styles.optionText}>{text}</Text>
+    </TouchableOpacity>
+  );
 
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#003366" />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={openDrawer}>
+          <Ionicons name="menu" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>MNNIT Allahabad</Text>
+        <TouchableOpacity onPress={() => Alert.alert("Notifications")}>
+          <Ionicons name="notifications" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+      </View>
+      <ScrollView style={styles.content}>
+        <Text style={styles.sectionTitle}>Today's Classes</Text>
         {error ? (
           <Text style={styles.error}>{error}</Text>
         ) : (
-          <View style={styles.classListContainer}>
-            <FlatList
-              data={classSchedule}
-              renderItem={({ item }) => (
-                <ClassCard
-                  subjectName={item.subjectName}
-                  venue={item.venue}
-                  time={item.time}
-                />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal
-            />
-          </View>
+          <FlatList
+            data={classSchedule}
+            renderItem={({ item }) => (
+              <ClassCard
+                subjectName={item.subjectName}
+                venue={item.venue}
+                time={item.time}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.classListContainer}
+          />
         )}
 
+        <Text style={styles.sectionTitle}>Quick Actions</Text>
         <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            style={styles.optionButton}
-            onPress={() => navigation.navigate("Select Class")}
-          >
-            <View style={styles.optionContent}>
-              <View style={styles.optionIconContainer}>
-                <Icon name="pencil" size={16} color="#ffffff" />
-              </View>
-              <Text style={styles.optionText}>Attendance</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.optionButton}
-            onPress={() => alert("Record Clicked")}
-          >
-            <View style={styles.optionContent}>
-              <View style={styles.optionIconContainer}>
-                <Icon name="list-ol" size={16} color="#ffffff" />
-              </View>
-              <Text style={styles.optionText}>Records</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.optionButton}
-            onPress={() => alert("Working on it sir!")}
-          >
-            <View style={styles.optionContent}>
-              <View style={styles.optionIconContainer}>
-                <Icon name="paperclip" size={16} color="#ffffff" />
-              </View>
-              <Text style={styles.optionText}>My Schedule</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.optionButton}
-            onPress={() => navigation.navigate("Notification Page")}
-          >
-            <View style={styles.optionContent}>
-              <View style={styles.optionIconContainer}>
-                <Icon name="bell-o" size={16} color="#ffffff" />
-              </View>
-              <Text style={styles.optionText}>Make Notification</Text>
-            </View>
-          </TouchableOpacity>
+          {renderOptionButton("create-outline", "Attendance", () => navigation.navigate("Select Class"))}
+          {renderOptionButton("list-outline", "Records", () => Alert.alert("Records"))}
+          {renderOptionButton("calendar-outline", "My Schedule", () => Alert.alert("My Schedule"))}
+          {renderOptionButton("notifications-outline", "Make Notification", () => navigation.navigate("Notification Page"))}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -125,70 +94,61 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? 50 : 0,
+    backgroundColor: '#F0F0F0',
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 12,
-    backgroundColor: "#ffffff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#003366',
   },
   headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "black",
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
   },
-  classListContainer: {
-    paddingHorizontal: 12,
-    paddingBottom: 8,
+  content: {
+    flex: 1,
+    padding: 16,
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#003366",
-    marginBottom: 10,
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#003366',
+    marginBottom: 16,
+    marginTop: 8,
+  },
+  classListContainer: {
+    marginBottom: 24,
   },
   optionsContainer: {
-    flexDirection: 'column',
-    padding: 12,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   optionButton: {
-    backgroundColor: "#4643cd",
-    borderRadius: 20,
-    marginBottom: 12,
-    shadowColor: "#111111",
-    shadowOffset: { height: 5, width: 0 },
-    shadowRadius: 3.14,
-    shadowOpacity: 0.5,
-    elevation: 3,
-    zIndex: 4,
-    height: 120, 
-    justifyContent: 'center',
-  },
-  optionContent: {
-    flexDirection: 'row',
+    backgroundColor: '#003366',
+    borderRadius: 8,
+    padding: 16,
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingHorizontal: 16,
-    marginLeft: 20, 
+    width: '48%',
+    marginBottom: 16,
   },
-  optionIconContainer: {
-    backgroundColor: "#5756cd",
-    borderRadius: 20,
-    height: 50, 
-    width: 50, 
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 20,
+  optionIcon: {
+    marginBottom: 8,
   },
   optionText: {
-    color: "#ffffff",
-    fontSize: 22, 
-    fontWeight: "500",
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  error: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });

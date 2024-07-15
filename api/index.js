@@ -14,7 +14,7 @@ const classScheduleRouter = require("./routes/classSchedule");
 const pushNotificationRouter = require("./routes/pushNotifications");
 const studentDetailsRouter = require("./routes/studentDetails");
 const loginRouter = require("./routes/login");
-
+const ProfileRouter = require('./routes/profile');
 
 const { connectStudentDetails,connectClassSchedules,connectNotifications ,connectAttendanceDetails} = require("./dbConfig");
 
@@ -43,6 +43,7 @@ app.use("/pushNotification", pushNotificationRouter);
 // Endpoint for fetching student details
 app.use("/students", studentDetailsRouter);
 
+app.use('/api/profile', ProfileRouter);
 
 
 

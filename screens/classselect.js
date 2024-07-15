@@ -5,11 +5,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  StatusBar,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
 
-export default function Classselect() {
+export default function ClassSelect() {
   const departments = [
     "A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2", "E1", "E2",
     "F1", "F2", "G1", "G2", "H1", "H2", "I1", "J1", "K1", "L1",
@@ -17,16 +19,15 @@ export default function Classselect() {
   ];
   const semesters = ["1", "2", "3", "4", "5", "6", "7", "8"];
   const navigation = useNavigation();
-  const [selectedSem, setSelectedSem] = useState(null);
-  const [selectedG, setSelectedG] = useState(null);
+  const [selectedSem, setSelectedSem] = useState("");
+  const [selectedDept, setSelectedDept] = useState("");
 
   const handleAttendancePress = () => {
-    if (!selectedG || !selectedSem) {
-      alert("Please select a department and semester");
-      return;
+    if (!selectedDept || !selectedSem) {
+      alert("Please select both a department and semester");
     } else {
       navigation.navigate("Attendance Page", {
-        group: selectedG,
+        group: selectedDept,
         semester: selectedSem,
       });
     }
@@ -34,46 +35,47 @@ export default function Classselect() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Select Class</Text>
-
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={selectedG}
-          onValueChange={(itemValue) => setSelectedG(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Select a department" value="" />
-          {departments.map((dept) => (
-            <Picker.Item
-              key={dept}
-              label={dept}
-              value={dept}
-              style={styles.pickerItem}
-            />
-          ))}
-        </Picker>
+      <StatusBar barStyle="light-content" backgroundColor="#003366" />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Select Class</Text>
+        <View style={{width: 24}} />
       </View>
-      <View style={styles.pickerContainer}>
-        <Picker
-          selectedValue={selectedSem}
-          onValueChange={(itemValue) => setSelectedSem(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Select a semester" value="" />
-          {semesters.map((sem) => (
-            <Picker.Item
-              key={sem}
-              label={sem}
-              value={sem}
-              style={styles.pickerItem}
-            />
-          ))}
-        </Picker>
-      </View>
+      <View style={styles.content}>
+        <Text style={styles.label}>Department</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedDept}
+            onValueChange={(itemValue) => setSelectedDept(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a department" value="" />
+            {departments.map((dept) => (
+              <Picker.Item key={dept} label={dept} value={dept} />
+            ))}
+          </Picker>
+        </View>
 
-      <TouchableOpacity onPress={handleAttendancePress} style={styles.button}>
-        <Text style={styles.buttonText}>Select</Text>
-      </TouchableOpacity>
+        <Text style={styles.label}>Semester</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedSem}
+            onValueChange={(itemValue) => setSelectedSem(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a semester" value="" />
+            {semesters.map((sem) => (
+              <Picker.Item key={sem} label={sem} value={sem} />
+            ))}
+          </Picker>
+        </View>
+
+        <TouchableOpacity onPress={handleAttendancePress} style={styles.button}>
+          <Text style={styles.buttonText}>Proceed</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -81,50 +83,52 @@ export default function Classselect() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: "#2C3E50",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: "#F0F0F0",
   },
-  title: {
-    fontSize: 36,
-    color: "#ECF0F1",
-    textAlign: "center",
-    marginBottom: 30,
-    fontWeight: "bold",
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#003366',
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#003366',
+    marginBottom: 8,
   },
   pickerContainer: {
-    backgroundColor: "#ECF0F1",
-    marginTop: 10,
-    width: 300,
-    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
     marginBottom: 20,
-    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
   },
   picker: {
-    color: "#34495E",
-  },
-  pickerItem: {
-    color: "#34495E",
+    color: '#333333',
   },
   button: {
-    backgroundColor: "#E74C3C",
+    backgroundColor: '#003366',
     height: 50,
-    width: 200,
-    alignSelf: "center",
-    marginTop: 30,
-    borderRadius: 25,
+    borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#111111",
-    shadowOffset: { height: 5, width: 0 },
-    shadowRadius: 3.14,
-    shadowOpacity: 0.5,
-    elevation: 3,
+    marginTop: 30,
   },
   buttonText: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#ECF0F1",
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#FFFFFF",
   },
 });

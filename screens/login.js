@@ -37,7 +37,7 @@ export default function LoginScreen() {
     if (token) {
       try {
         const response = await fetch(
-          "http://192.168.29.178:8000/login/verify-token",
+          "http://localhost:8000/login/verify-token",
           {
             method: "POST",
             headers: {
@@ -63,7 +63,7 @@ export default function LoginScreen() {
   const submit = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://192.168.29.178:8000/login", {
+      const response = await fetch("http://localhost:8000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,13 +72,16 @@ export default function LoginScreen() {
       });
 
       const data = await response.json();
-      console.log("Data from response", data)
+      console.log("Data from response", data);
+
 
       if (response.ok) {
         // Store the token
         await AsyncStorage.setItem("userToken", data.token);
         // Added: Store the regNo
-        // await AsyncStorage.setItem('userEmail', Email.toString());
+        await AsyncStorage.setItem('userEmail', data.user.Email);
+
+        await AsyncStorage.setItem('userName', data.user.Name);
         // Navigate to home screen
         navigation.navigate("Home");
       } else {

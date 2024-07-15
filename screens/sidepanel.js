@@ -43,7 +43,7 @@ const SidePanel = () => {
 
   const logout = async () => {
     try {
-      await AsyncStorage.multiRemove(["userToken", "userRegNo"]);
+      await AsyncStorage.multiRemove(["userToken", "userEmail", "userName"]);
       navigation.navigate("Login");
     } catch (error) {
       console.error("Logout error:", error);
