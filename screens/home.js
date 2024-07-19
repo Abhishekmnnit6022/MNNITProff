@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -15,8 +15,10 @@ import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import axios from "axios";
 import ClassCard from "../components/ClassCard";
+import { AppContext } from "./appContext";
 
 export default function HomeScreen() {
+  const { userEmail } = useContext(AppContext);
   const navigation = useNavigation();
   const [classSchedule, setClassSchedule] = useState([]);
   const [error, setError] = useState(null);
@@ -25,15 +27,36 @@ export default function HomeScreen() {
     const fetchClassSchedule = async () => {
       try {
         const response = await axios.get(
-          `https://emnnitproffserver.onrender.com/classSchedules/A1/3/Friday`
+          `http://localhost:8000/api/professorSchedule/${userEmail}`
         );
-        setClassSchedule(response.data);
+        console.log(response.data);
+        
+        // Sort the class schedule by time
+        const sortedSchedule = response.data.sort((a, b) => {
+          // Convert time strings to minutes since midnight
+          const getMinutes = (timeStr) => {
+            const [time, period] = timeStr.split(' ');
+            let [hours, minutes] = time.split(':').map(Number);
+            
+            if (period === 'PM' && hours !== 12) {
+              hours += 12;
+            } else if (period === 'AM' && hours === 12) {
+              hours = 0;
+            }
+            
+            return hours * 60 + minutes;
+          };
+          
+          return getMinutes(a.time) - getMinutes(b.time);
+        });
+        
+        setClassSchedule(sortedSchedule);
       } catch (error) {
         console.error("Error fetching class schedule:", error);
         setError("Failed to fetch class schedule");
       }
     };
-
+  
     fetchClassSchedule();
   }, []);
 
@@ -72,6 +95,8 @@ export default function HomeScreen() {
                 subjectName={item.subjectName}
                 venue={item.venue}
                 time={item.time}
+                group={item.group}              
+                semester={item.semester}
               />
             )}
             keyExtractor={(item, index) => index.toString()}

@@ -10,6 +10,8 @@ import NotificationPage from "./screens/notificationPage";
 import ForgetScreen from "./screens/Forget";
 import SidePanelContent from "./screens/sidepanel";
 import Profile from "./screens/Profile";
+import { AppProvider } from "./screens/appContext"; 
+
 SplashScreen.preventAutoHideAsync();
 import { useEffect } from "react";
 import { SplashScreen } from "expo-router";
@@ -41,6 +43,8 @@ function MainStackNavigator() {
 
   if (!fontsLoaded && !error) return null;
   return (
+    <AppProvider>
+
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen
         name="Login"
@@ -76,6 +80,7 @@ function MainStackNavigator() {
         name="Select Class"
         component={Classselect}
         options={{
+          headerShown:false,
           headerShadowVisible: true,
           headerTransparent: true,
           headerTintColor: "white",
@@ -84,6 +89,7 @@ function MainStackNavigator() {
         }}
       />
     </Stack.Navigator>
+    </AppProvider>
   );
 }
 

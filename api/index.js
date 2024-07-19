@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 // Importing the routes
 const submitAttendanceRouter = require("./routes/submitAttendance");
-const classScheduleRouter = require("./routes/classSchedule");
+const professorScheduleRouter = require("./routes/professorSchedule")
 const pushNotificationRouter = require("./routes/pushNotifications");
 const studentDetailsRouter = require("./routes/studentDetails");
 const loginRouter = require("./routes/login");
@@ -31,8 +31,6 @@ Promise.all([
 // Endpoint for login
 app.use("/login", loginRouter);
 
-// Endpoint for fetching class schedule
-app.use('/classSchedules', classScheduleRouter);
 
 // Endpoint for submitting attendance
 app.use("/submitAttendance",submitAttendanceRouter );
@@ -45,7 +43,7 @@ app.use("/students", studentDetailsRouter);
 
 app.use('/api/profile', ProfileRouter);
 
-
+app.use("/api/professorSchedule",professorScheduleRouter );
 
 // Start the server
 app.listen(port, () => {

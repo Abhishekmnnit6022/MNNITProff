@@ -5,6 +5,8 @@ const connectStudentDetails = mongoose.createConnection("mongodb+srv://auxin:aux
 const connectClassSchedules = mongoose.createConnection("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/ClassSchedules");
 const connectAttendanceDetails = mongoose.createConnection("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/AttendanceDetails");
 const connectProffdetails = mongoose.createConnection("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/Professordetails");
+const connectClassSchedulesProff = mongoose.createConnection("mongodb+srv://auxin:auxin@cluster0.xrg7sez.mongodb.net/ClassSchedulesProff");
+
 const waitForConnection = (connection) => {
   return new Promise((resolve, reject) => {
     connection.on('connected', () => resolve(connection));
@@ -17,7 +19,11 @@ module.exports = {
   connectStudentDetails: waitForConnection(connectStudentDetails),
   connectClassSchedules: waitForConnection(connectClassSchedules),
   connectAttendanceDetails: waitForConnection(connectAttendanceDetails),
-  connectProffdetails: waitForConnection(connectProffdetails)
+  connectProffdetails: waitForConnection(connectProffdetails),
+  connectClassSchedulesProff: waitForConnection(connectClassSchedulesProff)
+
+  
+  
 };
 
 
