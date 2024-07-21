@@ -27,7 +27,7 @@ export default function HomeScreen() {
     const fetchClassSchedule = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/professorSchedule/${userEmail}`
+          `https://api-hx1l.onrender.com/api/professorSchedule/${userEmail}`
         );
         console.log(response.data);
         

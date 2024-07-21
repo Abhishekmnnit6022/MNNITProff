@@ -13,7 +13,7 @@ const ForgotPassword = () => {
   const handleForgotPassword = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8000/login/forgot-password', { email });
+      const response = await axios.post('https://api-hx1l.onrender.com/login/forgot-password', { email });
       Alert.alert('Success', response.data.message);
     } catch (error) {
       console.error('Forgot password error:', error);

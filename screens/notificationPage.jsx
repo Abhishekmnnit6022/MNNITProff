@@ -45,7 +45,7 @@ const NotificationPage = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/pushNotification/${professorId}/${selectedDepartment}/${selectedSemester}`);
+      const response = await axios.get(`https://api-hx1l.onrender.com/pushNotification/${professorId}/${selectedDepartment}/${selectedSemester}`);
       setNotifications(response.data);
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -98,7 +98,7 @@ const NotificationPage = () => {
     console.log('Notification data:', notificationData);
 
     try {
-      const response = await axios.post(`http://localhost:8000/pushNotification`, notificationData);
+      const response = await axios.post(`https://api-hx1l.onrender.com/pushNotification`, notificationData);
       alert('Notification sent successfully');
       
       setMessage('');
@@ -112,7 +112,7 @@ const NotificationPage = () => {
 
   const updateNotification = async (id) => {
     try {
-      await axios.put(`http://localhost:8000/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`, {
+      await axios.put(`https://api-hx1l.onrender.com/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`, {
         message: editingNotification.message
       });
       setEditingNotification(null);
@@ -127,7 +127,7 @@ const NotificationPage = () => {
   const deleteNotification = async (id) => {
     try {
       console.log('Deleting notification with id:', id);
-      await axios.delete(`http://localhost:8000/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`);
+      await axios.delete(`https://api-hx1l.onrender.com/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`);
       fetchNotifications();
       alert('Notification deleted successfully');
     } catch (error) {

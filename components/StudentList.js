@@ -55,7 +55,7 @@ const StudentList = ({ data, group, semester }) => {
 
     try {
       const response = await axios.post(
-        `https://emnnitproffserver.onrender.com/submitAttendance`,
+        `https://api-hx1l.onrender.com/submitAttendance`,
         attendanceData
       );
       Alert.alert("Success", "Attendance submitted successfully");

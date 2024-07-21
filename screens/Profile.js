@@ -12,7 +12,7 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
       try {
         const userEmail = await AsyncStorage.getItem('userEmail');
-        const response = await axios.get(`http://localhost:8000/api/profile/${userEmail}`);
+        const response = await axios.get(`https://api-hx1l.onrender.com/api/profile/${userEmail}`);
         console.log('Profile data:', response.data);
         setProfile(response.data);
         setLoading(false);

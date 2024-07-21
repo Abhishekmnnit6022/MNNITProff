@@ -37,7 +37,7 @@ export default function LoginScreen() {
     if (token) {
       try {
         const response = await fetch(
-          "http://localhost:8000/login/verify-token",
+          "https://api-hx1l.onrender.com/login/verify-token",
           {
             method: "POST",
             headers: {
@@ -63,7 +63,7 @@ export default function LoginScreen() {
   const submit = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/login", {
+      const response = await fetch("https://api-hx1l.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
