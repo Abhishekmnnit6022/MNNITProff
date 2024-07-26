@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity, StyleSheet, FlatList, StatusBar, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  StatusBar,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Alert
+} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const NotificationPage = () => {
   const [message, setMessage] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -11,6 +25,10 @@ const NotificationPage = () => {
   const [editingNotification, setEditingNotification] = useState(null);
   const [professorId, setProfessorId] = useState('');
   const [professorName, setProfessorName] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const departments = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2","E1", "E2", "F1", "F2", "G1", "G2", "H1", "H2", "I1", "J1", "K1", "L1", "M1", "N1", "N2", "O1"];
   const semesters = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
@@ -35,104 +53,109 @@ const NotificationPage = () => {
         setProfessorName(name);
       } else {
         console.log('No userId or userName found in AsyncStorage');
-        alert('Error: Unable to retrieve professor information. Please try logging out and logging in again.');
+        Alert.alert('Error', 'Unable to retrieve professor information. Please try logging out and logging in again.');
       }
     } catch (error) {
       console.error('Error retrieving professor information:', error);
-      alert('Error retrieving professor information. Please try again.');
+      Alert.alert('Error', 'Error retrieving professor information. Please try again.');
     }
   };
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get(`https://api-hx1l.onrender.com/pushNotification/${professorId}/${selectedDepartment}/${selectedSemester}`);
+      const response = await axios.get(`http://localhost:8000/pushNotification/${professorId}/${selectedDepartment}/${selectedSemester}`);
       setNotifications(response.data);
     } catch (error) {
       console.error('Error fetching notifications:', error);
-      alert('Failed to fetch notifications');
+      Alert.alert('Error', 'Failed to fetch notifications');
     }
   };
 
   const sendNotification = async () => {
-    console.log('Sending notification with:');
-    console.log('professorId:', professorId);
-    console.log('professorName:', professorName);
-    console.log('message:', message);
-    console.log('selectedDepartment:', selectedDepartment);
-    console.log('selectedSemester:', selectedSemester);
+    if (isSending) return;
 
     if (!professorId || !professorName) {
-      console.log('professorId or professorName is missing');
-      alert('Error: Professor information is missing. Please try logging out and logging in again.');
+      Alert.alert('Error', 'Professor information is missing. Please try logging out and logging in again.');
       return;
     }
 
     if (!message.trim()) {
-      console.log('message is empty');
-      alert('Please enter a message');
+      Alert.alert('Error', 'Please enter a message');
       return;
     }
 
     if (!selectedDepartment) {
-      console.log('department is not selected');
-      alert('Please select a department');
+      Alert.alert('Error', 'Please select a department');
       return;
     }
 
     if (!selectedSemester) {
-      console.log('semester is not selected');
-      alert('Please select a semester');
+      Alert.alert('Error', 'Please select a semester');
       return;
     }
     
     const currentDate = new Date();
     const notificationData = {
       professorId,
-      title: professorName, // Include the professor's name as the title
+      title: professorName,
       message,
       Date: currentDate.toLocaleDateString(),
       time: currentDate.toLocaleTimeString([], { hour: 'numeric', minute: 'numeric', hour12: true }),
       department: selectedDepartment,
       semester: selectedSemester
     };
-    console.log('Notification data:', notificationData);
+
+    setIsSending(true);
 
     try {
-      const response = await axios.post(`https://api-hx1l.onrender.com/pushNotification`, notificationData);
-      alert('Notification sent successfully');
-      
+      const response = await axios.post(`http://localhost:8000/pushNotification`, notificationData);
+      console.log('Notification sent:', response.data);
+
+      Alert.alert('Success', 'Notification sent successfully');
       setMessage('');
       fetchNotifications();
-      console.log('Notification sent:', response.data);
     } catch (error) {
       console.error('Error sending notification:', error);
-      alert('Failed to send notification');
+      Alert.alert('Error', 'Failed to send notification');
+    } finally {
+      setIsSending(false);
     }
   };
 
   const updateNotification = async (id) => {
+    if (isEditing) return;
+
+    setIsEditing(true);
     try {
-      await axios.put(`https://api-hx1l.onrender.com/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`, {
-        message: editingNotification.message
+      const response = await axios.put(`http://localhost:8000/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`, {
+        message: editingNotification.message,
+        title: editingNotification.title
       });
       setEditingNotification(null);
       fetchNotifications();
-      alert('Notification updated successfully');
+      Alert.alert('Success', 'Notification updated and push notification sent successfully');
     } catch (error) {
       console.error('Error updating notification:', error);
-      alert('Failed to update notification');
+      Alert.alert('Error', 'Failed to update notification and send push notification');
+    } finally {
+      setIsEditing(false);
     }
   };
 
   const deleteNotification = async (id) => {
+    if (isDeleting) return;
+
+    setIsDeleting(true);
     try {
       console.log('Deleting notification with id:', id);
-      await axios.delete(`https://api-hx1l.onrender.com/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`);
+      await axios.delete(`http://localhost:8000/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`);
       fetchNotifications();
-      alert('Notification deleted successfully');
+      Alert.alert('Success', 'Notification deleted successfully');
     } catch (error) {
       console.error('Error deleting notification:', error);
-      alert('Failed to delete notification');
+      Alert.alert('Error', 'Failed to delete notification');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -142,11 +165,19 @@ const NotificationPage = () => {
       <Text style={styles.notificationMessage}>{item.message}</Text>
       <Text style={styles.notificationDate}>{item.Date} {item.time}</Text>
       <View style={styles.notificationActions}>
-        <TouchableOpacity style={styles.actionButton} onPress={() => setEditingNotification(item)}>
+        <TouchableOpacity 
+          style={styles.actionButton} 
+          onPress={() => setEditingNotification(item)}
+          disabled={isEditing || isDeleting}
+        >
           <Text style={styles.actionButtonText}>Edit</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionButton, styles.deleteButton]} onPress={() => deleteNotification(item._id)}>
-          <Text style={styles.actionButtonText}>Delete</Text>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.deleteButton, isDeleting && styles.disabledButton]} 
+          onPress={() => deleteNotification(item._id)}
+          disabled={isDeleting || isEditing}
+        >
+          <Text style={styles.actionButtonText}>{isDeleting ? 'Deleting...' : 'Delete'}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -195,8 +226,12 @@ const NotificationPage = () => {
             </Picker>
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={sendNotification}>
-            <Text style={styles.buttonText}>Send Notification</Text>
+          <TouchableOpacity 
+            style={[styles.button, isSending && styles.disabledButton]} 
+            onPress={sendNotification}
+            disabled={isSending}
+          >
+            <Text style={styles.buttonText}>{isSending ? 'Sending...' : 'Send Notification'}</Text>
           </TouchableOpacity>
 
           {editingNotification && (
@@ -207,8 +242,12 @@ const NotificationPage = () => {
                 onChangeText={(text) => setEditingNotification({...editingNotification, message: text})}
                 multiline
               />
-              <TouchableOpacity style={styles.button} onPress={() => updateNotification(editingNotification._id)}>
-                <Text style={styles.buttonText}>Update Notification</Text>
+              <TouchableOpacity 
+                style={[styles.button, isEditing && styles.disabledButton]} 
+                onPress={() => updateNotification(editingNotification._id)}
+                disabled={isEditing}
+              >
+                <Text style={styles.buttonText}>{isEditing ? 'Updating...' : 'Update Notification'}</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -332,6 +371,9 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: '#FFFFFF',
     fontSize: 14,
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });
 

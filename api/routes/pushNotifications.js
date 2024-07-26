@@ -1,9 +1,64 @@
 const express = require("express");
 const router = express.Router();
 const getNotificationModel = require("../models/notification");
+const { Expo } = require('expo-server-sdk');
 
+const expo = new Expo({ accessToken: "8zhxUq72RQ214TdzCBlmU2gbqcTb4YNyWEib_O2e", useFcmV1: true });
 
-// Updated GET route to fetch notifications for a specific professor, department, and semester
+// Combined POST route for creating notification and sending push notification
+router.post("/", async (req, res) => {
+  try {
+    const { professorId, title, message, Date, time, department, semester } = req.body;
+    console.log("Request received in combined notification API");
+
+    // Save the notification to the database
+    const NotificationModel = await getNotificationModel(department, semester);
+    const notificationData = { professorId, title, message, Date, time };
+    const result = await NotificationModel.create(notificationData);
+
+    // Send push notification
+    const pushToken = "ExponentPushToken[T7E3PPJpLKCCZJ4WAOsXm_]";
+    
+    if (!Expo.isExpoPushToken(pushToken)) {
+      throw new Error(`Push token ${pushToken} is not a valid Expo push token`);
+    }
+
+    const messages = [{
+      to: pushToken,
+      sound: 'default',
+      title: title,
+      body: message,
+      data: { withSome: 'data' },
+    }];
+
+    let chunks = expo.chunkPushNotifications(messages);
+    let tickets = [];
+
+    for (let chunk of chunks) {
+      try {
+        let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+        tickets.push(...ticketChunk);
+      } catch (error) {
+        console.error('Error sending push notifications:', error);
+        throw new Error('Failed to send push notification');
+      }
+    }
+
+    res.status(200).json({ 
+      message: "Notification created and push notification sent successfully", 
+      data: result,
+      pushNotificationTickets: tickets 
+    });
+  } catch (err) {
+    console.error('Error in combined notification route:', err);
+    res.status(500).json({ 
+      message: "Failed to create notification and send push notification", 
+      error: err.message 
+    });
+  }
+});
+
+// Existing GET route
 router.get("/:professorId/:department/:semester", async (req, res) => {
   try {
     const { professorId, department, semester } = req.params;
@@ -15,45 +70,61 @@ router.get("/:professorId/:department/:semester", async (req, res) => {
   }
 });
 
-// Updated POST route to include professorId
-router.post("/", async (req, res) => {
-  try {
-    const { professorId, title, message, Date, time, department, semester } = req.body;
-    console.log("Request received in pushNotification API");
-
-    const NotificationModel = await getNotificationModel(department, semester);
-
-    const notificationData = { professorId, title, message, Date, time };
-    const result = await NotificationModel.create(notificationData);
-
-    res
-      .status(200)
-      .json({ message: "Notification pushed successfully", data: result });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to push notification", error: err.message });
-  }
-});
-
-// New PUT route to update a notification
+// Existing PUT route
+// Updated PUT route
 router.put("/:department/:semester/:id", async (req, res) => {
   try {
     const { department, semester, id } = req.params;
-    const { message } = req.body;
+    const { message, title } = req.body;
     const NotificationModel = await getNotificationModel(department, semester);
     const updatedNotification = await NotificationModel.findByIdAndUpdate(
       id,
       { message },
       { new: true }
     );
-    res.status(200).json(updatedNotification);
+
+    // Send push notification
+    const pushToken = "ExponentPushToken[T7E3PPJpLKCCZJ4WAOsXm_]";
+    if (!Expo.isExpoPushToken(pushToken)) {
+      throw new Error(`Push token ${pushToken} is not a valid Expo push token`);
+    }
+
+    const messages = [{
+      to: pushToken,
+      sound: 'default',
+      title: `Updated: ${title}`,
+      body: message,
+      data: { withSome: 'data' },
+    }];
+
+    let chunks = expo.chunkPushNotifications(messages);
+    let tickets = [];
+
+    for (let chunk of chunks) {
+      try {
+        let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+        tickets.push(...ticketChunk);
+      } catch (error) {
+        console.error('Error sending push notifications:', error);
+        throw new Error('Failed to send push notification');
+      }
+    }
+
+    res.status(200).json({
+      message: "Notification updated and push notification sent successfully",
+      data: updatedNotification,
+      pushNotificationTickets: tickets
+    });
   } catch (err) {
-    res.status(500).json({ message: "Failed to update notification", error: err.message });
+    console.error('Error in update notification route:', err);
+    res.status(500).json({
+      message: "Failed to update notification and send push notification",
+      error: err.message
+    });
   }
 });
 
-// New DELETE route to delete a notification
+// Existing DELETE route
 router.delete("/:department/:semester/:id", async (req, res) => {
   try {
     const { department, semester, id } = req.params;
