@@ -5,30 +5,28 @@ import {
   FlatList,
   StyleSheet,
   Switch,
-  Button,
+  TouchableOpacity,
   Alert,
   Platform,
   ActivityIndicator,
+  SafeAreaView,
 } from "react-native";
 import { CheckBox } from "@rneui/themed";
 import axios from "axios";
-const os = Platform.OS;
-let count = 0;
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const StudentList = ({ data, group, semester }) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [isAbsentMode, setIsAbsentMode] = useState(false);
-
-  const [isloading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (data.length > 0) {
-      setIsLoading(false);
-    } else {
-      setIsLoading(true);
-    }
+    setIsLoading(data.length === 0);
   }, [data]);
+
   const toggleMode = () => setIsAbsentMode((prevMode) => !prevMode);
+  
   const toggleCheckbox = (id) => {
     setCheckedItems((prevState) => ({
       ...prevState,
@@ -36,22 +34,30 @@ const StudentList = ({ data, group, semester }) => {
     }));
   };
 
+  const confirmSubmit = () => {
+    Alert.alert(
+      "Confirm Submission",
+      "Are you sure you want to submit the attendance?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Submit", onPress: submitAttendance }
+      ],
+      { cancelable: false }
+    );
+  };
+
   const submitAttendance = async () => {
+    setIsSubmitting(true);
     const attendanceData = data.map((student) => ({
       regNo: student.regNo,
       name: student.name,
       date: new Date(),
       status: isAbsentMode
-        ? checkedItems[student.regNo]
-          ? "Absent"
-          : "Present"
-        : checkedItems[student.regNo]
-        ? "Present"
-        : "Absent",
+        ? checkedItems[student.regNo] ? "Absent" : "Present"
+        : checkedItems[student.regNo] ? "Present" : "Absent",
       group: group,
       semester: semester,
     }));
-    console.log(attendanceData);
 
     try {
       const response = await axios.post(
@@ -62,18 +68,18 @@ const StudentList = ({ data, group, semester }) => {
     } catch (error) {
       Alert.alert("Error", "Failed to submit attendance");
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const renderItem = ({ item, index }) => (
-    <View
-      style={[styles.row, index % 2 === 0 ? styles.evenRow : styles.oddRow]}
-    >
+    <View style={[styles.row, index % 2 === 0 ? styles.evenRow : styles.oddRow]}>
       <View style={[styles.cell, styles.regNoCell]}>
-        <Text>{item.regNo}</Text>
+        <Text style={styles.cellText}>{item.regNo}</Text>
       </View>
       <View style={[styles.cell, styles.nameCell]}>
-        <Text>{item.name}</Text>
+        <Text style={styles.cellText}>{item.name}</Text>
       </View>
       <View style={[styles.cell, styles.checkboxCell]}>
         <CheckBox
@@ -119,33 +125,40 @@ const StudentList = ({ data, group, semester }) => {
   );
 
   return (
-    <View style={styles.container}>
-      {isloading ? (
-        <ActivityIndicator size="large" color="grey" />
+    <SafeAreaView style={styles.container}>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#4643cd" />
       ) : (
-        <FlatList
-          data={data}
-          x
-          renderItem={renderItem}
-          keyExtractor={(item) => item.regNo}
-          ListHeaderComponent={ListHeader}
-          ListEmptyComponent={<ActivityIndicator size="large" color="grey" />}
-          stickyHeaderIndices={[0]}
-        />
+        <>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.regNo}
+            ListHeaderComponent={ListHeader}
+            ListEmptyComponent={<Text style={styles.emptyText}>No students found</Text>}
+            stickyHeaderIndices={[0]}
+          />
+          <TouchableOpacity
+            style={[styles.submitButton, isSubmitting && styles.disabledButton]}
+            onPress={confirmSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text style={styles.submitButtonText}>Submit Attendance</Text>
+            )}
+          </TouchableOpacity>
+        </>
       )}
-      <Button
-        title="Submit Attendance"
-        onPress={submitAttendance}
-        style={styles.submitButton}
-      />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: os == "android" ? 90 : 0,
+    backgroundColor: '#ffffff',
   },
   row: {
     flexDirection: "row",
@@ -168,7 +181,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     flex: 1,
-    padding: 10,
+    padding: wp('2.5%'),
     justifyContent: "center",
   },
   regNoCell: {
@@ -183,8 +196,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontWeight: "bold",
+    fontSize: wp('3.5%'),
+  },
+  cellText: {
+    fontSize: wp('3.6%'),
   },
   checkbox: {
+    height: hp('5%'),
+    width: wp('5%'),
     backgroundColor: "transparent",
     borderWidth: 0,
     padding: 0,
@@ -194,15 +213,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    padding: 10,
+    padding: wp('2.5%'),
   },
   toggleLabel: {
-    marginRight: 10,
+    marginRight: wp('2.5%'),
     fontWeight: "bold",
+    fontSize: wp('3.5%'),
   },
   submitButton: {
-    backgroundColor: "#4643cd",
-    margin: 10,
+    backgroundColor: "#003366",
+    margin: wp('5%'),
+    padding: wp('3%'),
+    borderRadius: wp('2%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: hp('6%'),
+  },
+  disabledButton: {
+    opacity: 0.7,
+  },
+  submitButtonText: {
+    color: "#FFFFFF",
+    fontSize: wp('4%'),
+    fontWeight: 'bold',
+  },
+  emptyText: {
+    textAlign: 'center',
+    marginTop: hp('5%'),
+    fontSize: wp('4%'),
+    color: '#888888',
   },
 });
 

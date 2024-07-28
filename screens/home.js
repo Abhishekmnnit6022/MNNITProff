@@ -10,21 +10,26 @@ import {
   Platform,
   Alert,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import axios from "axios";
 import ClassCard from "../components/ClassCard";
 import { AppContext } from "./appContext";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+
 
 export default function HomeScreen() {
   const { userEmail } = useContext(AppContext);
   const navigation = useNavigation();
   const [classSchedule, setClassSchedule] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchClassSchedule = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(
           `https://api-hx1l.onrender.com/api/professorSchedule/${userEmail}`
@@ -54,6 +59,8 @@ export default function HomeScreen() {
       } catch (error) {
         console.error("Error fetching class schedule:", error);
         setError("Failed to fetch class schedule");
+      } finally {
+        setIsLoading(false);
       }
     };
   
@@ -70,6 +77,14 @@ export default function HomeScreen() {
       <Text style={styles.optionText}>{text}</Text>
     </TouchableOpacity>
   );
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#003366" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -118,6 +133,9 @@ export default function HomeScreen() {
   );
 }
 
+
+// ... rest of the imports and component code
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -127,27 +145,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    padding: wp('4%'),
     backgroundColor: '#003366',
+    height: hp('8%'),
   },
   headerText: {
-    fontSize: 20,
+    fontSize: wp('5%'),
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
   content: {
     flex: 1,
-    padding: 16,
+    padding: wp('4%'),
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: wp('5.5%'),
     fontWeight: '600',
     color: '#003366',
-    marginBottom: 16,
-    marginTop: 8,
+    marginBottom: hp('2%'),
+    marginTop: hp('1%'),
   },
   classListContainer: {
-    marginBottom: 24,
+    marginBottom: hp('3%'),
   },
   optionsContainer: {
     flexDirection: 'row',
@@ -156,24 +175,31 @@ const styles = StyleSheet.create({
   },
   optionButton: {
     backgroundColor: '#003366',
-    borderRadius: 8,
-    padding: 16,
+    borderRadius: wp('2%'),
+    padding: wp('4%'),
     alignItems: 'center',
-    width: '48%',
-    marginBottom: 16,
+    width: wp('44%'),
+    marginBottom: hp('2%'),
   },
   optionIcon: {
-    marginBottom: 8,
+    marginBottom: hp('1%'),
   },
   optionText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: wp('4%'),
     fontWeight: '500',
     textAlign: 'center',
   },
   error: {
     color: 'red',
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: hp('2.5%'),
+    fontSize: wp('4%'),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F0F0F0',
   },
 });

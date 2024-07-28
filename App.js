@@ -60,22 +60,22 @@ function MainStackNavigator() {
         name="Attendance Page"
         component={AttendancePage}
         options={{
-          headerShadowVisible: false,
-          headerTransparent: true,
+          headerShadowVisible: true,
+          headerTransparent: false,
           headerTitle: "Attendance",
         }}
       />
       <Stack.Screen
         name="Notification Page"
         component={NotificationPage}
-        options={{ headerShadowVisible: false, headerBlurEffect: true
-          ,headerTitle: "",headerTransparent: true
+        options={{ headerShadowVisible: true, headerBlurEffect: true
+          ,headerTitle: "Send Notification",headerTransparent: false
          }}
       />
-      <Stack.Screen name ="Profile" component={Profile} options={{headerTitle:"" ,headerTransparent:true}} />
+      <Stack.Screen name ="Profile" component={Profile} options={{headerTitle:"Profile" ,headerTransparent:false, headerShown:true}} />
       <Stack.Screen name="Schedule" component={Schedule} />
       <Stack.Screen name="Forget Password" component={ForgetScreen}  options={{headerTitle:"Forget Password" ,headerTransparent:true}}/>
-      <Stack.Screen name ="Reset Password"  component={ResetPasswordScreen} options={{headerTitle:"Reset Password" ,headerTransparent:true}}/>
+      <Stack.Screen name ="Reset Password"  component={ResetPasswordScreen} options={{headerTitle:"Reset Password" ,headerTransparent:false}}/>
       <Stack.Screen
         name="Select Class"
         component={Classselect}

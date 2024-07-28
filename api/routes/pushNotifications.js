@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
     const result = await NotificationModel.create(notificationData);
 
     // Send push notification
-    const pushToken = "ExponentPushToken[T7E3PPJpLKCCZJ4WAOsXm_]";
+    const pushToken = "ExponentPushToken[bR_Y8nCV4j95w27Q_KohDY]";
     
     if (!Expo.isExpoPushToken(pushToken)) {
       throw new Error(`Push token ${pushToken} is not a valid Expo push token`);
@@ -84,7 +84,7 @@ router.put("/:department/:semester/:id", async (req, res) => {
     );
 
     // Send push notification
-    const pushToken = "ExponentPushToken[T7E3PPJpLKCCZJ4WAOsXm_]";
+    const pushToken = "ExponentPushToken[bR_Y8nCV4j95w27Q_KohDY]";
     if (!Expo.isExpoPushToken(pushToken)) {
       throw new Error(`Push token ${pushToken} is not a valid Expo push token`);
     }

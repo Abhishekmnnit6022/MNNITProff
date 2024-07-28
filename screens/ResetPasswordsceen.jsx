@@ -51,7 +51,6 @@ const PasswordResetScreen = () => {
   return (
     <SafeAreaView  className="h-full m-4"
     style={{
-      marginTop: 50,
     }}>
       <View >
         <FormField

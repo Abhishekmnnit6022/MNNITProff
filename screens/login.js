@@ -11,28 +11,30 @@ import {
   ScrollView,
   Platform,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isCheckingToken, setIsCheckingToken] = useState(true);
 
   const navigation = useNavigation();
 
-  // Added useEffect to check login status on component mount
   useEffect(() => {
     checkLoginStatus();
   }, []);
 
-  // Added function to check login status
   const checkLoginStatus = async () => {
+    setIsCheckingToken(true);
     const token = await AsyncStorage.getItem("userToken");
     if (token) {
       try {
@@ -48,16 +50,14 @@ export default function LoginScreen() {
 
         if (response.ok) {
           navigation.navigate("Home");
-
-          // User is logged in, navigate to home screen
         } else {
-          // Token is invalid, clear it
           await AsyncStorage.removeItem("userToken");
         }
       } catch (error) {
         console.error("Token verification error:", error);
       }
     }
+    setIsCheckingToken(false);
   };
 
   const submit = async () => {
@@ -74,15 +74,10 @@ export default function LoginScreen() {
       const data = await response.json();
       console.log("Data from response", data);
 
-
       if (response.ok) {
-        // Store the token
         await AsyncStorage.setItem("userToken", data.token);
-        // Added: Store the regNo
         await AsyncStorage.setItem('userEmail', data.user.Email);
-
         await AsyncStorage.setItem('userName', data.user.Name);
-        // Navigate to home screen
         navigation.navigate("Home");
       } else {
         Alert.alert("Login Failed", data.message);
@@ -94,6 +89,14 @@ export default function LoginScreen() {
       setIsLoading(false);
     }
   };
+
+  if (isCheckingToken) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#003366" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -147,8 +150,7 @@ export default function LoginScreen() {
 
             <TouchableOpacity
               onPress={()=>navigation.navigate("Forget Password")}>
-                <Text style={styles.forgotPassword}> Forgot
-              Password?</Text>
+                <Text style={styles.forgotPassword}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -156,6 +158,8 @@ export default function LoginScreen() {
     </SafeAreaView>
   );
 }
+
+// ... rest of the imports and component code
 
 const styles = StyleSheet.create({
   container: {
@@ -168,36 +172,36 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 20,
+    padding: wp('5%'),
   },
   logoContainer: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: hp('2.5%'),
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: wp('30%'),
+    height: wp('30%'),
   },
   instituteName: {
     alignItems: "center",
-    marginBottom: 40,
+    marginBottom: hp('5%'),
   },
   instituteNameText: {
-    fontSize: 18,
+    fontSize: wp('4.5%'),
     fontWeight: "bold",
     color: "#003366",
     textAlign: "center",
-    marginBottom: 5,
+    marginBottom: hp('0.6%'),
   },
   instituteLocation: {
-    fontSize: 16,
+    fontSize: wp('4%'),
     color: "#003366",
     fontWeight: "600",
   },
   formContainer: {
     backgroundColor: "#ffffff",
-    borderRadius: 10,
-    padding: 20,
+    borderRadius: wp('2.5%'),
+    padding: wp('5%'),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -209,8 +213,14 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     textAlign: "center",
-    marginTop: 20,
+    marginTop: hp('2.5%'),
     color: "#003366",
-    fontSize: 14,
+    fontSize: wp('3.5%'),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f4f8',
   },
 });
