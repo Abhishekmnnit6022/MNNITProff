@@ -23,7 +23,7 @@ const PasswordResetScreen = () => {
     try {
       const email = await AsyncStorage.getItem('userEmail');
       //add correct api
-      const response = await fetch("will add my api", {
+      const response = await fetch("https://mnnitproff.as.r.appspot.com/login/reset-password", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8080;
 const cors = require("cors");
 app.use(cors());
 
@@ -26,8 +26,9 @@ Promise.all([
 ]).then(() => {
   console.log("All database connections established")});
 
-
-
+  app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Server is up and running!' });
+  });
 // Endpoint for login
 app.use("/login", loginRouter);
 
@@ -46,6 +47,5 @@ app.use('/api/profile', ProfileRouter);
 app.use("/api/professorSchedule",professorScheduleRouter );
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(port, () => {  console.log(`Server is running on port ${port}`);
 });

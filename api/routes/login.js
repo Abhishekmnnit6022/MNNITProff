@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     }
 
     // If credentials are valid, create a JWT token
-    const token = jwt.sign({ email: proff.Email }, 'Team_Auxin_was_here', { expiresIn: '1h' });
+    const token = jwt.sign({ email: proff.Email }, 'Team_Auxin_was_here', { expiresIn: '8640h' });
 
     // Send the token and some user info back to the client
     res.json({

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   Image,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   Alert,
@@ -18,7 +17,26 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
+const LoadingScreen = () => (
+  <View style={styles.loadingContainer}>
+    <View style={styles.loadingContent}>
+    <Text style={styles.loadingText}>
+        Logging{'\n'}
+        <Text style={styles.loadingTextSecondLine}>you in</Text>
+      </Text>     
+       <ActivityIndicator
+        size="large"
+        color="white"
+        style={styles.loadingIndicator}
+      />
+    </View>
+  </View>
+);
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -39,7 +57,6 @@ export default function LoginScreen() {
     if (token) {
       try {
         const response = await fetch(
-          "https://api-hx1l.onrender.com/login/verify-token",
           {
             method: "POST",
             headers: {
@@ -63,21 +80,24 @@ export default function LoginScreen() {
   const submit = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("https://api-hx1l.onrender.com/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://mnnitproff.as.r.appspot.com/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
       console.log("Data from response", data);
 
       if (response.ok) {
         await AsyncStorage.setItem("userToken", data.token);
-        await AsyncStorage.setItem('userEmail', data.user.Email);
-        await AsyncStorage.setItem('userName', data.user.Name);
+        await AsyncStorage.setItem("userEmail", data.user.Email);
+        await AsyncStorage.setItem("userName", data.user.Name);
         navigation.navigate("Home");
       } else {
         Alert.alert("Login Failed", data.message);
@@ -91,11 +111,7 @@ export default function LoginScreen() {
   };
 
   if (isCheckingToken) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#003366" />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -149,8 +165,9 @@ export default function LoginScreen() {
             />
 
             <TouchableOpacity
-              onPress={()=>navigation.navigate("Forget Password")}>
-                <Text style={styles.forgotPassword}>Forgot Password?</Text>
+              onPress={() => navigation.navigate("Forget Password")}
+            >
+              <Text style={styles.forgotPassword}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -158,8 +175,6 @@ export default function LoginScreen() {
     </SafeAreaView>
   );
 }
-
-// ... rest of the imports and component code
 
 const styles = StyleSheet.create({
   container: {
@@ -172,36 +187,36 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: wp('5%'),
+    padding: wp("5%"),
   },
   logoContainer: {
     alignItems: "center",
-    marginBottom: hp('2.5%'),
+    marginBottom: hp("2.5%"),
   },
   logo: {
-    width: wp('30%'),
-    height: wp('30%'),
+    width: wp("30%"),
+    height: wp("30%"),
   },
   instituteName: {
     alignItems: "center",
-    marginBottom: hp('5%'),
+    marginBottom: hp("5%"),
   },
   instituteNameText: {
-    fontSize: wp('4.5%'),
+    fontSize: wp("4.5%"),
     fontWeight: "bold",
     color: "#003366",
     textAlign: "center",
-    marginBottom: hp('0.6%'),
+    marginBottom: hp("0.6%"),
   },
   instituteLocation: {
-    fontSize: wp('4%'),
+    fontSize: wp("4%"),
     color: "#003366",
     fontWeight: "600",
   },
   formContainer: {
     backgroundColor: "#ffffff",
-    borderRadius: wp('2.5%'),
-    padding: wp('5%'),
+    borderRadius: wp("2.5%"),
+    padding: wp("5%"),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -213,14 +228,35 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     textAlign: "center",
-    marginTop: hp('2.5%'),
+    marginTop: hp("2.5%"),
     color: "#003366",
-    fontSize: wp('3.5%'),
+    fontSize: wp("3.5%"),
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f4f8',
+    backgroundColor: "#003366",
+    justifyContent: "center",
+  },
+  loadingLogo: {
+    width: wp("20%"),
+    height: wp("20%"),
+    marginBottom: hp("2%"),
+  },
+  loadingIndicator: {
+    alignSelf: "flex-start",
+  },
+  loadingContent: {
+    marginLeft: wp("10%"),
+  },
+  loadingTextSecondLine: {
+    fontSize: wp('8%'), // Slightly smaller font for "you in"
+  },
+
+  loadingText: {
+    fontSize: wp("10%"),
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: hp("2%"),
+    lineHeight: wp('12%'),
   },
 });

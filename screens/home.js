@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
-  Platform,
   Alert,
   StatusBar,
   ActivityIndicator,
@@ -18,7 +17,6 @@ import axios from "axios";
 import ClassCard from "../components/ClassCard";
 import { AppContext } from "./appContext";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
-
 
 export default function HomeScreen() {
   const { userEmail } = useContext(AppContext);
@@ -32,13 +30,11 @@ export default function HomeScreen() {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `https://api-hx1l.onrender.com/api/professorSchedule/${userEmail}`
+          `https://mnnitproff.as.r.appspot.com/api/professorSchedule/${userEmail}`
         );
         console.log(response.data);
         
-        // Sort the class schedule by time
         const sortedSchedule = response.data.sort((a, b) => {
-          // Convert time strings to minutes since midnight
           const getMinutes = (timeStr) => {
             const [time, period] = timeStr.split(' ');
             let [hours, minutes] = time.split(':').map(Number);
@@ -78,17 +74,9 @@ export default function HomeScreen() {
     </TouchableOpacity>
   );
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#003366" />
-      </View>
-    );
-  }
-
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#003366" />
+      <StatusBar backgroundColor="#003366" barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity onPress={openDrawer}>
           <Ionicons name="menu" size={24} color="#FFFFFF" />
@@ -100,8 +88,17 @@ export default function HomeScreen() {
       </View>
       <ScrollView style={styles.content}>
         <Text style={styles.sectionTitle}>Today's Classes</Text>
-        {error ? (
+        {isLoading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#003366" />
+          </View>
+        ) : error ? (
           <Text style={styles.error}>{error}</Text>
+        ) : classSchedule.length === 0 ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#003366" />
+            <Text style={styles.noClassesText}>No classes scheduled for today</Text>
+          </View>
         ) : (
           <FlatList
             data={classSchedule}
@@ -132,9 +129,6 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
-
-
-// ... rest of the imports and component code
 
 const styles = StyleSheet.create({
   container: {
@@ -200,6 +194,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F0F0F0',
+    height: hp('20%'),
+  },
+  noClassesText: {
+    marginTop: hp('2%'),
+    fontSize: wp('4%'),
+    color: '#003366',
+    textAlign: 'center',
   },
 });

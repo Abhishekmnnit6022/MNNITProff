@@ -61,7 +61,7 @@ const StudentList = ({ data, group, semester }) => {
 
     try {
       const response = await axios.post(
-        `https://api-hx1l.onrender.com/submitAttendance`,
+        `https://mnnitproff.as.r.appspot.com/submitAttendance`,
         attendanceData
       );
       Alert.alert("Success", "Attendance submitted successfully");
@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   checkboxCell: {
+    
     flex: 1,
     alignItems: "center",
   },
@@ -202,8 +203,6 @@ const styles = StyleSheet.create({
     fontSize: wp('3.6%'),
   },
   checkbox: {
-    height: hp('5%'),
-    width: wp('5%'),
     backgroundColor: "transparent",
     borderWidth: 0,
     padding: 0,

@@ -63,7 +63,7 @@ const NotificationPage = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/pushNotification/${professorId}/${selectedDepartment}/${selectedSemester}`);
+      const response = await axios.get(`https://mnnitproff.as.r.appspot.com/pushNotification/${professorId}/${selectedDepartment}/${selectedSemester}`);
       setNotifications(response.data);
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -108,7 +108,7 @@ const NotificationPage = () => {
     setIsSending(true);
 
     try {
-      const response = await axios.post(`http://localhost:8000/pushNotification`, notificationData);
+      const response = await axios.post(`https://mnnitproff.as.r.appspot.com/pushNotification`, notificationData);
       console.log('Notification sent:', response.data);
 
       Alert.alert('Success', 'Notification sent successfully');
@@ -127,7 +127,7 @@ const NotificationPage = () => {
 
     setIsEditing(true);
     try {
-      const response = await axios.put(`http://localhost:8000/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`, {
+      const response = await axios.put(`https://mnnitproff.as.r.appspot.com/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`, {
         message: editingNotification.message,
         title: editingNotification.title
       });
@@ -148,7 +148,7 @@ const NotificationPage = () => {
     setIsDeleting(true);
     try {
       console.log('Deleting notification with id:', id);
-      await axios.delete(`http://localhost:8000/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`);
+      await axios.delete(`https://mnnitproff.as.r.appspot.com/pushNotification/${selectedDepartment}/${selectedSemester}/${id}`);
       fetchNotifications();
       Alert.alert('Success', 'Notification deleted successfully');
     } catch (error) {
