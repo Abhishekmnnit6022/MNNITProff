@@ -26,8 +26,8 @@ const LoadingScreen = () => (
   <View style={styles.loadingContainer}>
     <View style={styles.loadingContent}>
     <Text style={styles.loadingText}>
-        Logging{'\n'}
-        <Text style={styles.loadingTextSecondLine}>you in</Text>
+        Please{'\n'}
+        <Text style={styles.loadingTextSecondLine}>Wait</Text>
       </Text>     
        <ActivityIndicator
         size="large"
@@ -57,6 +57,7 @@ export default function LoginScreen() {
     if (token) {
       try {
         const response = await fetch(
+          "https://mnnitproff.as.r.appspot.com/login/verify-token",
           {
             method: "POST",
             headers: {
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
     marginLeft: wp("10%"),
   },
   loadingTextSecondLine: {
-    fontSize: wp('8%'), // Slightly smaller font for "you in"
+    fontSize: wp('8%'), 
   },
 
   loadingText: {
