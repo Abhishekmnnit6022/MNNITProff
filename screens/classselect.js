@@ -10,6 +10,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function ClassSelect() {
   const departments = [
@@ -18,8 +19,10 @@ export default function ClassSelect() {
     "M1", "N1", "N2", "O1",
   ];
   const semesters = ["1", "2", "3", "4", "5", "6", "7", "8"];
+  const subjects = ["Maths", "Physics", "Chemistry", "Biology", "Computer Science"];
   const navigation = useNavigation();
   const [selectedSem, setSelectedSem] = useState("");
+  const [selectedSub, setSelectedSub] = useState("");
   const [selectedDept, setSelectedDept] = useState("");
 
   const handleAttendancePress = () => {
@@ -29,13 +32,15 @@ export default function ClassSelect() {
       navigation.navigate("Attendance Page", {
         group: selectedDept,
         semester: selectedSem,
+        subject: selectedSub,
       });
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#003366" />
+      <ScrollView>
+      <StatusBar barStyle="dark-content" backgroundColor="#003366" />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
@@ -58,6 +63,8 @@ export default function ClassSelect() {
           </Picker>
         </View>
 
+     
+
         <Text style={styles.label}>Semester</Text>
         <View style={styles.pickerContainer}>
           <Picker
@@ -72,10 +79,25 @@ export default function ClassSelect() {
           </Picker>
         </View>
 
+        <Text style={styles.label}>Subject</Text>
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={selectedSub}
+            onValueChange={(itemValue) => setSelectedSub(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a Subject" value="" />
+            {subjects.map((sub) => (
+              <Picker.Item key={sub} label={sub} value={sub} />
+            ))}
+          </Picker>
+        </View>
+
         <TouchableOpacity onPress={handleAttendancePress} style={styles.button}>
           <Text style={styles.buttonText}>Proceed</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

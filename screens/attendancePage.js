@@ -11,12 +11,13 @@ import { useRoute } from "@react-navigation/native";
 import StudentList from "../components/StudentList";
 const AttendancePage = () => {
   const route = useRoute();
-  const { group, semester } = route.params;
+  const { group, semester, subject } = route.params;
   const [studentData, setStudentData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchStudentData = useCallback(async (group, semester) => {
+  const fetchStudentData = useCallback(async (group, semester, subject) => {
+
     try {
       //change port according to your server
       const response = await axios.get(
@@ -33,8 +34,9 @@ const AttendancePage = () => {
   }, []);
 
   useEffect(() => {
-    if (group && semester) {
+    if (group && semester &&  subject) {
       fetchStudentData(group, semester);
+      console.log("Fetching student data", group, semester, subject);
     }
   }, [group, semester, fetchStudentData]);
 
@@ -47,7 +49,7 @@ const AttendancePage = () => {
           <Text style={styles.errorText}>{error}</Text>
         </View>
       ) : (
-        <StudentList data={studentData} group={group} semester={semester} />
+        <StudentList data={studentData} group={group} semester={semester} subject={subject}/>
       )}
     </SafeAreaView>
   );

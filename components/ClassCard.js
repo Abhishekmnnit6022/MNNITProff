@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#CC0000',
-    padding: 8,
+  padding: 8,
   },
   cancelledText: {
     color: '#FFFFFF',
@@ -124,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClassCard;
+export default ClassCard; 

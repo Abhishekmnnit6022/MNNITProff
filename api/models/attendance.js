@@ -26,10 +26,14 @@ const attendanceSchema = new mongoose.Schema({
     semester: {
         type: String,
         required: true
+    },
+    subject: {
+        type: String,
+        required: true
     }
-}, {
-    timestamps: true // Adds createdAt and updatedAt fields
-});
+
+
+}, );
 
 // Create a compound index for efficient querying
 attendanceSchema.index({ group: 1, semester: 1, date: 1, regNo: 1 });

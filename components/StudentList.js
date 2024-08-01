@@ -15,7 +15,7 @@ import { CheckBox } from "@rneui/themed";
 import axios from "axios";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const StudentList = ({ data, group, semester }) => {
+const StudentList = ({ data, group, semester, subject }) => {
   const [checkedItems, setCheckedItems] = useState({});
   const [isAbsentMode, setIsAbsentMode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -56,12 +56,13 @@ const StudentList = ({ data, group, semester }) => {
         ? checkedItems[student.regNo] ? "Absent" : "Present"
         : checkedItems[student.regNo] ? "Present" : "Absent",
       group: group,
-      semester: semester,
+      semester: semester, 
+      subject: subject,
     }));
 
     try {
       const response = await axios.post(
-        `https://mnnitproff.as.r.appspot.com/submitAttendance`,
+        `http://localhost:8000/submitAttendance`,
         attendanceData
       );
       Alert.alert("Success", "Attendance submitted successfully");
