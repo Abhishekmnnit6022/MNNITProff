@@ -121,7 +121,7 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Quick Actions</Text>
         <View style={styles.optionsContainer}>
           {renderOptionButton("create-outline", "Attendance", () => navigation.navigate("Select Class"))}
-          {renderOptionButton("list-outline", "Records", () => Alert.alert("Records"))}
+          {renderOptionButton("list-outline", "Records",()=>navigation.navigate("Records"))}
           {renderOptionButton("calendar-outline", "My Schedule", () => Alert.alert("My Schedule"))}
           {renderOptionButton("notifications-outline", "Make Notification", () => navigation.navigate("Notification Page"))}
         </View>

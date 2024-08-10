@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port =  8000;
+const port =  8008;
 const cors = require("cors");
 app.use(cors());
 
@@ -31,6 +31,9 @@ Promise.all([
   });
 // Endpoint for login
 app.use("/login", loginRouter);
+
+// Endpoint for fetching attendance data
+app.use("/attendance", require("./routes/attendance"));
 
 
 // Endpoint for submitting attendance
