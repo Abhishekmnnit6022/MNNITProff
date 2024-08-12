@@ -33,7 +33,7 @@ Promise.all([
 app.use("/login", loginRouter);
 
 // Endpoint for fetching attendance data
-app.use("/attendance", require("./routes/attendance"));
+// app.use("/attendance", require("./routes/attendance"));
 
 
 // Endpoint for submitting attendance

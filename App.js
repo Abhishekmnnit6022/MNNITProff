@@ -95,7 +95,7 @@ function MainStackNavigator() {
             headerShown: true,
           }}
         />
-        <Stack.Screen name="Schedule" component={Schedule} />
+       
         <Stack.Screen
           name="Forget Password"
           component={ForgetScreen}
@@ -116,6 +116,15 @@ function MainStackNavigator() {
             headerTintColor: "white",
             headerShadowVisible: false,
             headerTitle: "",
+          }}
+        />
+        <Stack.Screen
+          name="Schedule"
+          component={Schedule}
+          options={{
+            headerTitle: "Weekly Schedule",
+            headerTransparent: false,
+            headerShown: true,
           }}
         />
       </Stack.Navigator>

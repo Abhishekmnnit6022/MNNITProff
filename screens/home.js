@@ -122,7 +122,7 @@ export default function HomeScreen() {
         <View style={styles.optionsContainer}>
           {renderOptionButton("create-outline", "Attendance", () => navigation.navigate("Select Class"))}
           {renderOptionButton("list-outline", "Records",()=>navigation.navigate("Records"))}
-          {renderOptionButton("calendar-outline", "My Schedule", () => Alert.alert("My Schedule"))}
+          {renderOptionButton("calendar-outline", "My Schedule", ()=>navigation.navigate("Schedule"))}
           {renderOptionButton("notifications-outline", "Make Notification", () => navigation.navigate("Notification Page"))}
         </View>
       </ScrollView>
