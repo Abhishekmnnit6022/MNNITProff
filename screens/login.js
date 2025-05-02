@@ -57,7 +57,7 @@ export default function LoginScreen() {
     if (token) {
       try {
         const response = await fetch(
-          "https://mnnitproff.as.r.appspot.com/login/verify-token",
+          "http:/localhost:8000/login/verify-token",
           {
             method: "POST",
             headers: {
@@ -82,7 +82,7 @@ export default function LoginScreen() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        "https://mnnitproff.as.r.appspot.com/login",
+        "http:/localhost:8000/login",
         {
           method: "POST",
           headers: {

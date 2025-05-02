@@ -30,7 +30,7 @@ export default function HomeScreen() {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `https://mnnitproff.as.r.appspot.com/api/professorSchedule/${userEmail}`
+          `http:/localhost:8000/api/professorSchedule/${userEmail}`
         );
         console.log(response.data);
         

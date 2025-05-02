@@ -21,7 +21,7 @@ const AttendancePage = () => {
     try {
       //change port according to your server
       const response = await axios.get(
-        `https://mnnitproff.as.r.appspot.com/students/${group}/${semester}`
+        `http:/localhost:8000/students/${group}/${semester}`
       );
       setStudentData(response.data);
       setLoading(false);
